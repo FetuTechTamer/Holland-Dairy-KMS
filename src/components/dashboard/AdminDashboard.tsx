@@ -20,22 +20,36 @@ import {
   Edit, 
   Trash2, 
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  History,
+  Mail as MailIcon
 } from 'lucide-react';
+import Breadcrumb from '../Breadcrumb';
+import Link from 'next/link';
+import { storage, STORAGE_KEYS } from '@/lib/storage';
 
 const AdminDashboard = () => {
   const { language } = useLanguage();
   const { user } = useAuth();
   const t = translations[language].dashboard;
-  const [activeTab, setActiveTab] = useState<'overview' | 'content' | 'users' | 'tickets' | 'moderation' | 'broadcast'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'content' | 'users' | 'tickets' | 'messages' | 'moderation' | 'broadcast'>('overview');
+  const [users, setUsers] = useState<User[]>(mockUsers);
+  const [contactMessages, setContactMessages] = useState<any[]>(storage.get(STORAGE_KEYS.CONTACT_MESSAGES, []));
+
+  const handleDeleteUser = (userId: string) => {
+    if (window.confirm(translations[language].dashboard.admin.confirmDelete)) {
+      setUsers(users.filter(u => u.id !== userId));
+    }
+  };
 
   const adminTabs = [
     { id: 'overview', label: 'Overview', icon: BarChart3 },
     { id: 'content', label: 'Content', icon: FileText },
-    { id: 'users', label: 'Users', icon: UsersIcon },
+    { id: 'users', label: t.admin.users, icon: UsersIcon },
     { id: 'tickets', label: 'Tickets', icon: MessageSquare },
-    { id: 'moderation', label: 'Moderation', icon: ShieldCheck },
-    { id: 'broadcast', label: 'Broadcast', icon: Megaphone },
+    { id: 'messages', label: t.admin.messages, icon: MailIcon },
+    { id: 'moderation', label: t.admin.moderation, icon: ShieldCheck },
+    { id: 'broadcast', label: t.admin.broadcast, icon: Megaphone },
   ];
 
   const renderAdminContent = () => {
@@ -88,15 +102,23 @@ const AdminDashboard = () => {
       case 'users':
         return (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold mb-8">User Management</h2>
+            <h2 className="text-2xl font-bold mb-8">{t.admin.users}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mockUsers.map(u => (
-                <div key={u.id} className="glass p-6 rounded-3xl border border-white/10 hover:border-accent/30 transition-all group">
+              {users.map(u => (
+                <div key={u.id} className="glass p-6 rounded-3xl border border-white/10 hover:border-accent/30 transition-all group relative">
                   <div className="flex justify-between items-start mb-4">
                     <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center text-accent font-bold text-xl">
                       {u.name.charAt(0)}
                     </div>
-                    <button className="p-2 hover:bg-white/10 rounded-full"><MoreVertical className="w-4 h-4 opacity-40" /></button>
+                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                       <button className="p-2 hover:bg-white/10 rounded-full text-accent"><Edit className="w-4 h-4" /></button>
+                       <button 
+                         onClick={() => handleDeleteUser(u.id)}
+                         className="p-2 hover:bg-red-500/10 rounded-full text-red-500"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                    </div>
                   </div>
                   <h3 className="font-bold mb-1">{u.name}</h3>
                   <p className="text-xs opacity-50 mb-4">{u.email}</p>
@@ -106,6 +128,45 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        );
+
+      case 'messages':
+        return (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold mb-8">{t.admin.messages}</h2>
+            <div className="glass rounded-[2rem] border border-white/10 overflow-hidden">
+               {contactMessages.length > 0 ? (
+                 <table className="w-full text-left">
+                    <thead className="bg-white/5 text-[10px] uppercase font-bold tracking-widest opacity-50">
+                      <tr>
+                        <th className="px-6 py-4">Sender</th>
+                        <th className="px-6 py-4">Subject</th>
+                        <th className="px-6 py-4">Message</th>
+                        <th className="px-6 py-4">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {contactMessages.map((msg, i) => (
+                        <tr key={i} className="hover:bg-white/5 transition-colors">
+                          <td className="px-6 py-4">
+                            <p className="font-bold text-sm">{msg.name}</p>
+                            <p className="text-[10px] opacity-40">{msg.email}</p>
+                          </td>
+                          <td className="px-6 py-4 text-sm font-medium">{msg.subject}</td>
+                          <td className="px-6 py-4 text-xs opacity-60 max-w-xs truncate">{msg.message}</td>
+                          <td className="px-6 py-4 text-[10px] opacity-40">{msg.date}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                 </table>
+               ) : (
+                 <div className="p-20 text-center opacity-50">
+                    <MailIcon className="w-12 h-12 mx-auto mb-4 opacity-20" />
+                    <p>No contact messages yet.</p>
+                 </div>
+               )}
             </div>
           </div>
         );
@@ -203,7 +264,9 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="space-y-10 pb-20">
+    <div className="space-y-6 pb-20">
+      <Breadcrumb />
+      
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -217,6 +280,14 @@ const AdminDashboard = () => {
             </span>
           </div>
         </div>
+
+        <Link 
+          href="/"
+          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-purple-500/20 text-purple-500 font-bold hover:bg-purple-500 hover:text-white transition-all shadow-lg group self-start md:self-center"
+        >
+          <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
+          {translations[language].nav.exitHub}
+        </Link>
       </div>
 
       {/* Admin Tabs */}

@@ -58,6 +58,9 @@ const Navbar = () => {
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-6 font-medium">
+            <Link href="/" className="hover:text-accent transition-colors flex items-center gap-2">
+              {t.home}
+            </Link>
             <Link href="/#about" className="hover:text-accent transition-colors">
               {t.about}
             </Link>
@@ -112,17 +115,20 @@ const Navbar = () => {
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className="flex items-center gap-2 p-1 pr-3 rounded-full hover:bg-foreground/5 transition-all border border-foreground/10"
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs ${getRoleColor(user.role)}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs ${getRoleColor(user.role)} shadow-sm`}>
                       {user.name.charAt(0)}
                     </div>
-                    <span className="text-xs font-bold hidden lg:inline">{user.role}</span>
+                    <div className="flex flex-col items-start leading-none group text-left">
+                       <span className="text-[10px] font-black opacity-40 uppercase tracking-tighter">{user.role}</span>
+                       <span className="text-[11px] font-bold truncate max-w-[80px]">{user.name.split(' ')[0]}</span>
+                    </div>
                   </button>
 
                   {isProfileOpen && (
                     <>
                       <div className="fixed inset-0" onClick={() => setIsProfileOpen(false)} />
                       <div className="absolute right-0 mt-2 w-56 glass rounded-2xl shadow-2xl z-50 overflow-hidden border border-foreground/10 animate-in fade-in zoom-in-95 duration-200">
-                        <div className="p-4 border-b border-foreground/10 bg-foreground/5">
+                        <div className="p-4 border-b border-foreground/10 bg-foreground/5 fle">
                           <p className="text-sm font-bold truncate">{user.name}</p>
                           <p className="text-[10px] opacity-60 truncate">{user.email}</p>
                         </div>
@@ -140,8 +146,16 @@ const Navbar = () => {
                             onClick={() => setIsProfileOpen(false)}
                             className="flex items-center gap-3 p-3 rounded-xl hover:bg-accent hover:text-white transition-all group"
                           >
-                            <Settings className="w-4 h-4" />
+                            <User className="w-4 h-4" />
                             <span className="text-sm font-medium">{t.profile}</span>
+                          </Link>
+                          <Link 
+                            href="/"
+                            onClick={() => setIsProfileOpen(false)}
+                            className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-600 hover:text-white transition-all group"
+                          >
+                            <LayoutDashboard className="w-4 h-4 -rotate-90" />
+                            <span className="text-sm font-medium">{t.goHome}</span>
                           </Link>
                           <button 
                             onClick={() => {

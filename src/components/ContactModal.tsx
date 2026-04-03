@@ -6,6 +6,8 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
 import { translations } from '@/lib/translations';
 
+import { storage, STORAGE_KEYS } from '@/lib/storage';
+
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -45,12 +47,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
     // Mock API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Save to localStorage
-    const existingMessages = JSON.parse(localStorage.getItem('holland_contact_messages') || '[]');
-    localStorage.setItem('holland_contact_messages', JSON.stringify([
+    // Save to localStorage using storage utility
+    const existingMessages = storage.get(STORAGE_KEYS.CONTACT_MESSAGES, []);
+    storage.set(STORAGE_KEYS.CONTACT_MESSAGES, [
       ...existingMessages,
-      { ...formData, id: Date.now(), date: new Date().toISOString() }
-    ]));
+      { ...formData, id: Date.now(), date: new Date().toISOString().split('T')[0] }
+    ]);
     
     setIsSubmitting(false);
     setIsSuccess(true);

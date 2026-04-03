@@ -10,8 +10,10 @@ import GlobalSearchBar from './GlobalSearchBar';
 import StatsCards from './StatsCards';
 import ArticleCard from './ArticleCard';
 import KnowledgeShareFeed from './KnowledgeShareFeed';
-import { ChevronRight, ClipboardList, Shield, Zap, Settings, HelpCircle, HardHat } from 'lucide-react';
 import RoleBadge from './RoleBadge';
+import Breadcrumb from '../Breadcrumb';
+import Link from 'next/link';
+import { History } from 'lucide-react';
 
 const StaffDashboard = () => {
   const { language } = useLanguage();
@@ -31,7 +33,9 @@ const StaffDashboard = () => {
   ];
 
   return (
-    <div className="space-y-10 pb-20">
+    <div className="space-y-6 pb-20">
+      <Breadcrumb />
+      
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -40,11 +44,19 @@ const StaffDashboard = () => {
           </h1>
           <div className="flex items-center gap-3">
             <RoleBadge role="STAFF" />
-            <span className="text-sm opacity-50 font-medium tracking-wide">
+            <span className="text-sm opacity-50 font-medium tracking-wide uppercase">
               {user?.department} DEPARTMENT
             </span>
           </div>
         </div>
+
+        <Link 
+          href="/"
+          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-blue-500/20 text-blue-500 font-bold hover:bg-blue-500 hover:text-white transition-all shadow-lg group self-start md:self-center"
+        >
+          <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
+          {translations[language].nav.exitHub}
+        </Link>
       </div>
 
       {/* Search Bar */}

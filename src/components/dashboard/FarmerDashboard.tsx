@@ -12,6 +12,8 @@ import ArticleCard from './ArticleCard';
 import KnowledgeShareFeed from './KnowledgeShareFeed';
 import { ChevronRight, Calendar, AlertTriangle, Phone, History, BookMarked } from 'lucide-react';
 import RoleBadge from './RoleBadge';
+import Breadcrumb from '../Breadcrumb';
+import Link from 'next/link';
 
 const FarmerDashboard = () => {
   const { language } = useLanguage();
@@ -31,7 +33,9 @@ const FarmerDashboard = () => {
   ];
 
   return (
-    <div className="space-y-10 pb-20">
+    <div className="space-y-6 pb-20">
+      <Breadcrumb />
+      
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -45,6 +49,14 @@ const FarmerDashboard = () => {
             </span>
           </div>
         </div>
+
+        <Link 
+          href="/"
+          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
+        >
+          <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
+          {translations[language].nav.exitHub}
+        </Link>
       </div>
 
       {/* Search Bar */}

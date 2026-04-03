@@ -7,7 +7,13 @@ interface AuthContextType {
   user: User | null;
   status: 'idle' | 'loading' | 'authenticated' | 'unauthenticated';
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, role: Role) => Promise<boolean>;
+  register: (
+    name: string,
+    email: string,
+    role: Role,
+    farmName?: string,
+    department?: string
+  ) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
@@ -31,7 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setStatus('loading');
     // Mock login logic
     const foundUser = mockUsers.find(u => u.email === email);
-    
+
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 800));
 
@@ -55,9 +61,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return false;
   };
 
-  const register = async (name: string, email: string, role: Role): Promise<boolean> => {
+  const register = async (
+    name: string,
+    email: string,
+    role: Role,
+    farmName?: string,
+    department?: string
+  ): Promise<{ success: boolean; error?: string }> => {
     setStatus('loading');
     await new Promise(resolve => setTimeout(resolve, 800));
+
+
 
     const newUser: User = {
       id: Math.random().toString(36).substr(2, 9),
@@ -65,13 +79,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email,
       role,
       joinDate: new Date().toISOString().split('T')[0],
-      department: role === 'STAFF' ? 'General' : undefined
+      farmName: role === 'FARMER' ? farmName : undefined,
+      department: role === 'STAFF' ? department : (role === 'ADMIN' ? 'Management' : undefined)
     };
 
     setUser(newUser);
     localStorage.setItem('holland_user', JSON.stringify(newUser));
     setStatus('authenticated');
-    return true;
+    return { success: true };
   };
 
   const logout = () => {

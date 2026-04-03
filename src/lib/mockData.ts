@@ -8,6 +8,7 @@ export interface User {
   joinDate: string;
   avatar?: string;
   department?: string;
+  farmName?: string;
 }
 
 export interface Article {

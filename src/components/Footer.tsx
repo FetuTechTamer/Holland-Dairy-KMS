@@ -45,6 +45,7 @@ const Footer = () => {
         <div>
           <h4 className="text-xl font-bold mb-6 text-accent">{t.footer.quickLinks}</h4>
           <ul className="space-y-4 opacity-70">
+            <li><Link href="/" className="hover:text-accent transition-colors font-bold text-accent">{t.nav.home}</Link></li>
             <li><Link href="#about" className="hover:text-accent transition-colors">{t.nav.about}</Link></li>
             <li><Link href="#products" className="hover:text-accent transition-colors">{t.nav.products}</Link></li>
             <li><Link href="#resources" className="hover:text-accent transition-colors">{t.nav.resources}</Link></li>

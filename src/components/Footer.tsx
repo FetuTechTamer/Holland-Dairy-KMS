@@ -68,11 +68,11 @@ const Footer = () => {
           <ul className="space-y-4 opacity-70">
             <li className="flex items-center gap-3">
               <MapPin className="w-5 h-5 text-accent shrink-0" />
-              <span>Addis Ababa, Ethiopia</span>
+              <span>Bishoftu, Ethiopia</span>
             </li>
             <li className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-accent shrink-0" />
-              <span>+251 11 XXX XXXX</span>
+              <span>6653</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-accent shrink-0" />

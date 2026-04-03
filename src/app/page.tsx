@@ -18,7 +18,7 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen flex items-start justify-center pt-32 overflow-hidden">
         <div className="absolute inset-0 bg-hero-fixed z-0 dark:opacity-40 transition-opacity" />
         <div className="absolute inset-0 bg-background/20 dark:bg-black/60 z-10" />
 
@@ -84,15 +84,28 @@ export default function Home() {
       </section>
 
       {/* Product Spotlight */}
-      <section id="products" className="py-24 bg-brand-dark-gray text-white relative px-6 dark:bg-black/40">
-        <div className="max-w-6xl mx-auto text-center mb-16 space-y-4">
+      <section
+        id="products"
+        className="relative py-24 text-white px-6"
+        style={{
+          backgroundImage: `url('/holland-bg.jpg')`, // <-- update URL here
+          backgroundAttachment: 'fixed',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+        }}
+      >
+        {/* Overlay for dark/light effect */}
+        <div className="absolute inset-0 bg-black/40 dark:bg-black/60 z-0"></div>
+
+        <div className="relative z-10 max-w-6xl mx-auto text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold">{t.products.title}</h2>
           <p className="text-white/60 text-lg max-w-2xl mx-auto italic">
             {t.products.subtitle}
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <div className="relative z-10 grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Natural Yoghurt */}
           <div className="glass group rounded-[40px] overflow-hidden p-8 hover:bg-white/10 transition-all border-white/5">
             <div className="relative mb-8 rounded-3xl overflow-hidden h-64">
@@ -198,15 +211,30 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-32 relative bg-background/50">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
-        <div className="max-w-4xl mx-auto text-center mb-16 px-6">
+      <section
+        id="faq"
+        className="py-32 relative text-white px-6"
+        style={{
+          backgroundImage: `url('/holland-bg.jpg')`, // <-- update URL here
+          backgroundAttachment: 'fixed',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+        }}
+      >
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-black/40 dark:bg-black/60 z-0"></div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center mb-16 px-6">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">{t.faq.title}</h2>
           <p className="text-lg opacity-60">{t.faq.description}</p>
         </div>
-        <FAQ />
-      </section>
 
+        {/* FAQ content */}
+        <div className="relative z-10">
+          <FAQ />
+        </div>
+      </section>
       <Footer />
     </main>
   );

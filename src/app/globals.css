@@ -1,48 +1,89 @@
 @import "tailwindcss";
 
-@theme {
-  --color-brand-light: #86EFAC;
-  --color-brand-medium: #22C55E;
-  --color-brand-dark-gray: #1F2937;
-  --color-brand-deep-green: #064E3B;
-  --color-brand-accent-green: #10B981;
-}
-
+/* Brand Colors */
 :root {
-  --background: #FFFFFF;
-  --foreground: #1F2937;
-  --accent: #86EFAC;
+  --color-brand-light: #86EFAC;
+  /* light green accents */
+  --color-brand-medium: #22C55E;
+  /* primary green */
+  --color-brand-dark-gray: #1F2937;
+  /* dark text / background */
+  --color-brand-deep-green: #064E3B;
+  /* dark green for dark mode buttons */
+  --color-brand-accent-green: #10B981;
+  /* secondary accents */
+
+
+  /* Site variables for Tailwind integration */
+  --background: #188a6b;
+  /* soft light green background */
+  --foreground: #111827;
+  /* dark text */
+  --accent: #34D399;
+  /* fresh green highlight */
   --primary: #22C55E;
+  /* CTA buttons, links */
 }
 
 .dark {
-  --background: #1F2937;
-  --foreground: #FFFFFF;
+  --background: #053b2d;
+  /* dark background */
+  --foreground: #F9FAFB;
+  /* white text */
   --accent: #10B981;
-  --primary: #064E3B;
+  /* bright accent green */
+  --primary: #059669;
+  /* primary CTA buttons in dark mode */
 }
 
+/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
+/* Body defaults */
 body {
   background: var(--background);
   color: var(--foreground);
 }
 
+/* Hero background */
 .bg-hero-fixed {
   background-image: url('/holland-bg.jpg');
   background-attachment: fixed;
-  background-position: center;
+  background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
-  /* filter: blur(2px); */
 }
 
-
+/* Glass effect utility */
 @layer utilities {
   .glass {
-    @apply bg-white/20 backdrop-blur-md border border-white/30;
+    @apply bg-white/20 backdrop-blur-md border border-white/30 dark:bg-black/20 dark:border-black/40;
   }
+
+  /* Attractive buttons for primary CTA (Hub button) */
+  .btn-primary {
+    @apply text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl;
+    background-color: var(--primary);
+  }
+
+  .dark .btn-primary {
+    background-color: var(--primary);
+  }
+
+  /* Hover effect */
+  .btn-primary:hover {
+    background-color: var(--accent);
+  }
+
+  /* Accent links */
+  .text-accent {
+    color: var(--accent);
+  }
+}
+
+/* Utility for card hover effects */
+.card-hover {
+  @apply transition-transform duration-500 ease-in-out transform hover:scale-[1.02] hover:shadow-xl;
 }

@@ -25,6 +25,18 @@ export interface Article {
   author: string;
 }
 
+export interface TutorialVideo {
+  id: string;
+  title: string;
+  thumbnail: string;
+  duration: string;
+  category: string;
+  role: Role | 'BOTH';
+  url: string;
+  views?: string;
+  date: string;
+}
+
 export interface Post {
   id: string;
   authorName: string;
@@ -154,6 +166,53 @@ export const farmerArticles: Article[] = [
     image: 'https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?auto=format&fit=crop&q=80&w=800',
     date: '2024-02-15',
     author: 'Resources Dept'
+  }
+];
+
+export const tutorialVideos: TutorialVideo[] = [
+  {
+    id: 'v1',
+    title: 'Modern Milking Techniques',
+    thumbnail: 'https://images.unsplash.com/photo-1596733430284-f7437764b1a9?auto=format&fit=crop&q=80&w=800',
+    duration: '12:45',
+    category: 'milkQuality',
+    role: 'FARMER',
+    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    views: '1.2k',
+    date: '2024-03-20'
+  },
+  {
+    id: 'v2',
+    title: 'Calf Health Management',
+    thumbnail: 'https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&q=80&w=800',
+    duration: '08:30',
+    category: 'health',
+    role: 'FARMER',
+    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    views: '850',
+    date: '2024-03-15'
+  },
+  {
+    id: 'v3',
+    title: 'Pasteurizer Operation SOP',
+    thumbnail: 'https://images.unsplash.com/photo-1536531327116-2e457f9037be?auto=format&fit=crop&q=80&w=800',
+    duration: '15:20',
+    category: 'processing',
+    role: 'STAFF',
+    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    views: '450',
+    date: '2024-03-01'
+  },
+  {
+    id: 'v4',
+    title: 'Quality Lab Procedures',
+    thumbnail: 'https://images.unsplash.com/photo-1579165466531-39665752e811?auto=format&fit=crop&q=80&w=800',
+    duration: '10:15',
+    category: 'milkQuality',
+    role: 'STAFF',
+    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    views: '320',
+    date: '2024-03-10'
   }
 ];
 

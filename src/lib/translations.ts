@@ -57,6 +57,7 @@ export const translations = {
         totalUsers: "ጠቅላላ ተጠቃሚዎች",
         totalArticles: "ጠቅላላ ጽሁፎች",
         openTickets: "ክፍት ጥያቄዎች",
+        videoTutorials: "የቪዲዮ ስልጠናዎች",
       },
       categories: {
         all: "ሁሉም",
@@ -74,10 +75,12 @@ export const translations = {
         supportTickets: "የድጋፍ ጥያቄዎች",
         learningLibrary: "የመማሪያ ቤተ-መጽሐፍት",
         companyUpdates: "የኩባንያ መረጃዎች",
+        videoTraining: "የቪዲዮ ስልጠናዎች",
         adminTools: "የአስተዳዳሪ መሣሪያዎች",
       },
       actions: {
         readMore: "ተጨማሪ ያንብቡ",
+        watchNow: "አሁኑኑ ይመልከቱ",
         shareExperience: "ልምድዎን ያካፍሉ",
         createTicket: "አዲስ ጥያቄ",
         reportEmergency: "አስቸኳይ ጉዳይ",
@@ -95,7 +98,9 @@ export const translations = {
         deleteUser: "ተጠቃሚን ሰርዝ",
         editUser: "ተጠቃሚን አሻሽል",
         confirmDelete: "ይህን ተጠቃሚ ለመሰረዝ እርግጠኛ ነዎት?",
-      }
+      },
+      ethiopianDate: "የኢትዮጵያ ቀን",
+      etMonthNames: ["መስከረም", "ጥቅምት", "ህዳር", "ታህሳስ", "ጥር", "የካቲት", "መጋቢት", "ሚያዝያ", "ግንቦት", "ሰኔ", "ሐምሌ", "ነሐሴ", "ጳጉሜን"]
     },
     share: {
       postTitle: "እውቀትዎን ያካፍሉ",
@@ -281,6 +286,7 @@ export const translations = {
         totalUsers: "Total Users",
         totalArticles: "Total Articles",
         openTickets: "Open Tickets",
+        videoTutorials: "Video Tutorials",
       },
       categories: {
         all: "All",
@@ -298,10 +304,12 @@ export const translations = {
         supportTickets: "Support Tickets",
         learningLibrary: "My Learning Library",
         companyUpdates: "Company Updates",
+        videoTraining: "Video Training",
         adminTools: "Admin Management",
       },
       actions: {
         readMore: "Read More",
+        watchNow: "Watch Now",
         shareExperience: "Share Experience",
         createTicket: "Create Ticket",
         reportEmergency: "Report Emergency",

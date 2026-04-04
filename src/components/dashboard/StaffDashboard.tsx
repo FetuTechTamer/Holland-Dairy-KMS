@@ -13,6 +13,8 @@ import KnowledgeShareFeed from './KnowledgeShareFeed';
 import RoleBadge from './RoleBadge';
 import Breadcrumb from '../Breadcrumb';
 import Link from 'next/link';
+import EthiopianDate from './EthiopianDate';
+import VideoGrid from './VideoGrid';
 import {
   History,
   Shield,
@@ -53,19 +55,22 @@ const StaffDashboard = () => {
           </h1>
           <div className="flex items-center gap-3">
             <RoleBadge role="STAFF" />
-            <span className="text-sm opacity-50 font-medium tracking-wide uppercase">
-              {user?.department} DEPARTMENT
+            <span className="text-sm opacity-50 font-medium tracking-wide">
+              STAFF ID: #HD-2024-{user?.id.padStart(3, '0')}
             </span>
           </div>
         </div>
 
-        <Link
-          href="/"
-          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
-        >
-          <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
-          {translations[language].nav.exitHub}
-        </Link>
+        <div className="flex items-center gap-4">
+          <EthiopianDate />
+          <Link
+            href="/"
+            className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
+          >
+            <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
+            {translations[language].nav.exitHub}
+          </Link>
+        </div>
       </div>
 
       {/* Search Bar */}
@@ -109,6 +114,15 @@ const StaffDashboard = () => {
                 <p>No documents found matching your search</p>
               </div>
             )}
+          </div>
+
+          {/* Training Videos Section */}
+          <div className="pt-10">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <div className="w-2 h-8 bg-purple-500 rounded-full" />
+              {t.sections.videoTraining}
+            </h2>
+            <VideoGrid role="STAFF" />
           </div>
 
           <div className="pt-10">

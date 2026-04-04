@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import Breadcrumb from '../Breadcrumb';
 import Link from 'next/link';
+import EthiopianDate from './EthiopianDate';
 import { storage, STORAGE_KEYS } from '@/lib/storage';
 
 const AdminDashboard = () => {
@@ -285,13 +286,16 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <Link
-          href="/"
-          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
-        >
-          <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
-          {translations[language].nav.exitHub}
-        </Link>
+        <div className="flex items-center gap-4">
+          <EthiopianDate />
+          <Link
+            href="/"
+            className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
+          >
+            <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
+            {translations[language].nav.exitHub}
+          </Link>
+        </div>
       </div>
 
       {/* Admin Tabs */}

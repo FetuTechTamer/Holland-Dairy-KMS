@@ -14,6 +14,9 @@ import { ChevronRight, Calendar, AlertTriangle, Phone, History, BookMarked } fro
 import RoleBadge from './RoleBadge';
 import Breadcrumb from '../Breadcrumb';
 import Link from 'next/link';
+import EthiopianDate from './EthiopianDate';
+import VideoGrid from './VideoGrid';
+import KnowledgeCalculator from './KnowledgeCalculator';
 
 const FarmerDashboard = () => {
   const { language } = useLanguage();
@@ -50,13 +53,16 @@ const FarmerDashboard = () => {
           </div>
         </div>
 
-        <Link 
-          href="/"
-          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
-        >
-          <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
-          {translations[language].nav.exitHub}
-        </Link>
+        <div className="flex items-center gap-4">
+          <EthiopianDate />
+          <Link 
+            href="/"
+            className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
+          >
+            <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
+            {translations[language].nav.exitHub}
+          </Link>
+        </div>
       </div>
 
       {/* Search Bar */}
@@ -104,6 +110,15 @@ const FarmerDashboard = () => {
             )}
           </div>
 
+          {/* Video Training Section */}
+          <div className="pt-10">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <div className="w-2 h-8 bg-purple-500 rounded-full" />
+              {t.sections.videoTraining}
+            </h2>
+            <VideoGrid role="FARMER" />
+          </div>
+
           {/* Community Section */}
           <div className="pt-10">
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
@@ -144,26 +159,8 @@ const FarmerDashboard = () => {
             </div>
           </div>
 
-          {/* Library Section */}
-          <div className="glass p-8 rounded-[2rem] border border-white/10">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <BookMarked className="w-5 h-5 text-accent" />
-              My Library
-            </h3>
-            <div className="space-y-4">
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                <p className="text-xs opacity-50 mb-1">SAVED ARTICLES</p>
-                <p className="text-lg font-bold">12 Items</p>
-              </div>
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                <p className="text-xs opacity-50 mb-1">PERSONAL NOTES</p>
-                <textarea 
-                  className="w-full bg-transparent border-none p-0 text-sm focus:ring-0 placeholder:opacity-40 h-24 resize-none"
-                  placeholder="Type your notes here..."
-                />
-              </div>
-            </div>
-          </div>
+          {/* Library Section replaced by Calculator */}
+          <KnowledgeCalculator />
 
           {/* Company Updates */}
           <div className="glass p-8 rounded-[2rem] border border-white/10">

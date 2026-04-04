@@ -7,7 +7,19 @@ import { useLanguage } from '@/context/LanguageContext';
 import { translations } from '@/lib/translations';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ChevronLeft, Clock, Tag, Calendar, User, ThumbsUp, Bookmark, Printer, Share2, ArrowRight } from 'lucide-react';
+import {
+  ChevronLeft,
+  Clock,
+  Tag,
+  Calendar,
+  User,
+  ThumbsUp,
+  Bookmark,
+  Printer,
+  Share2,
+  ArrowRight,
+  Shield
+} from 'lucide-react';
 import Image from 'next/image';
 
 const ArticlePage = () => {
@@ -15,7 +27,7 @@ const ArticlePage = () => {
   const router = useRouter();
   const { language } = useLanguage();
   const t = translations[language].dashboard.actions;
-  
+
   const [article, setArticle] = useState<Article | null>(null);
   const [isHelpful, setIsHelpful] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -37,7 +49,7 @@ const ArticlePage = () => {
       <Navbar />
       <main className="flex-grow pt-32 pb-20">
         <div className="container mx-auto px-6">
-          <button 
+          <button
             onClick={() => router.back()}
             className="flex items-center gap-2 text-sm font-bold opacity-50 hover:opacity-100 hover:text-accent transition-all mb-8 group"
           >
@@ -57,11 +69,11 @@ const ArticlePage = () => {
                   <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{article.date}</span>
                 </div>
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
                 {article.title}
               </h1>
-              
+
               <div className="flex items-center gap-4 pt-4 border-t border-white/5">
                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-accent text-xl font-black">
                   {article.author.charAt(0)}
@@ -75,11 +87,11 @@ const ArticlePage = () => {
 
             {/* Featured Image */}
             <div className="relative h-[300px] md:h-[500px] rounded-[3rem] overflow-hidden shadow-2xl border border-white/10 group">
-              <Image 
-                src={article.image} 
-                alt={article.title} 
-                fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-1000" 
+              <Image
+                src={article.image}
+                alt={article.title}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-1000"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
@@ -108,11 +120,10 @@ const ArticlePage = () => {
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-12 border-t border-white/5">
                   <div className="flex items-center gap-4">
                     <p className="text-sm font-bold opacity-60">Was this helpful?</p>
-                    <button 
+                    <button
                       onClick={() => setIsHelpful(!isHelpful)}
-                      className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all active:scale-95 ${
-                        isHelpful ? 'bg-accent text-white shadow-lg' : 'glass border border-white/10 hover:bg-white/5'
-                      }`}
+                      className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all active:scale-95 ${isHelpful ? 'bg-accent text-white shadow-lg' : 'glass border border-white/10 hover:bg-white/5'
+                        }`}
                     >
                       <ThumbsUp className={`w-4 h-4 ${isHelpful ? 'fill-current' : ''}`} />
                       Yes
@@ -121,13 +132,12 @@ const ArticlePage = () => {
                       No
                     </button>
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
-                    <button 
+                    <button
                       onClick={() => setIsSaved(!isSaved)}
-                      className={`p-4 rounded-xl transition-all shadow-md ${
-                        isSaved ? 'bg-amber-500 text-white' : 'glass border border-white/10 hover:bg-white/5'
-                      }`}
+                      className={`p-4 rounded-xl transition-all shadow-md ${isSaved ? 'bg-amber-500 text-white' : 'glass border border-white/10 hover:bg-white/5'
+                        }`}
                     >
                       <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
                     </button>
@@ -150,7 +160,7 @@ const ArticlePage = () => {
                   </h4>
                   <div className="space-y-6">
                     {(article.role === 'FARMER' ? farmerArticles : staffArticles).slice(0, 3).filter(a => a.id !== article.id).map(rel => (
-                      <button 
+                      <button
                         key={rel.id}
                         onClick={() => router.push(`/article/${rel.id}`)}
                         className="w-full text-left group"

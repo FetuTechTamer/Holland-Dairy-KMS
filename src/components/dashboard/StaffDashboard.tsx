@@ -13,7 +13,16 @@ import KnowledgeShareFeed from './KnowledgeShareFeed';
 import RoleBadge from './RoleBadge';
 import Breadcrumb from '../Breadcrumb';
 import Link from 'next/link';
-import { History } from 'lucide-react';
+import {
+  History,
+  Shield,
+  ChevronRight,
+  Settings,
+  Zap,
+  HelpCircle,
+  HardHat,
+  ClipboardList
+} from 'lucide-react';
 
 const StaffDashboard = () => {
   const { language } = useLanguage();
@@ -35,7 +44,7 @@ const StaffDashboard = () => {
   return (
     <div className="space-y-6 pb-20">
       <Breadcrumb />
-      
+
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -50,9 +59,9 @@ const StaffDashboard = () => {
           </div>
         </div>
 
-        <Link 
+        <Link
           href="/"
-          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-blue-500/20 text-blue-500 font-bold hover:bg-blue-500 hover:text-white transition-all shadow-lg group self-start md:self-center"
+          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
         >
           <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
           {translations[language].nav.exitHub}
@@ -73,17 +82,16 @@ const StaffDashboard = () => {
               <div className="w-2 h-8 bg-blue-500 rounded-full" />
               SOPs & Manuals
             </h2>
-            
+
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
               {categories.map(cat => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
-                    activeCategory === cat.id 
-                      ? 'bg-blue-500 text-white shadow-lg' 
-                      : 'glass border border-white/10 hover:bg-white/5'
-                  }`}
+                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap ${activeCategory === cat.id
+                    ? 'bg-blue-500 text-white shadow-lg'
+                    : 'glass border border-white/10 hover:bg-white/5'
+                    }`}
                 >
                   {cat.label}
                 </button>
@@ -172,15 +180,13 @@ const StaffDashboard = () => {
                 <div key={i}>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm font-bold">{training.title}</span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
-                      training.status === 'Completed' ? 'bg-emerald-500/20 text-emerald-500' : 'bg-amber-500/20 text-amber-500'
-                    }`}>{training.status}</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${training.status === 'Completed' ? 'bg-emerald-500/20 text-emerald-500' : 'bg-amber-500/20 text-amber-500'
+                      }`}>{training.status}</span>
                   </div>
                   <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full rounded-full transition-all duration-1000 ${
-                        training.progress === 100 ? 'bg-emerald-500' : 'bg-amber-500'
-                      }`}
+                    <div
+                      className={`h-full rounded-full transition-all duration-1000 ${training.progress === 100 ? 'bg-emerald-500' : 'bg-amber-500'
+                        }`}
                       style={{ width: `${training.progress}%` }}
                     />
                   </div>

@@ -6,19 +6,19 @@ import { useAuth } from '@/context/AuthContext';
 import { translations } from '@/lib/translations';
 import { Article, Ticket, User, mockUsers, mockTickets, farmerArticles, staffArticles } from '@/lib/mockData';
 import StatsCards from './StatsCards';
-import StaffDashboard from './StaffDashboard';
 import RoleBadge from './RoleBadge';
-import { 
-  Users as UsersIcon, 
-  FileText, 
-  MessageSquare, 
-  BarChart3, 
-  ShieldCheck, 
-  Megaphone, 
-  Plus, 
-  MoreVertical, 
-  Edit, 
-  Trash2, 
+import KnowledgeShareFeed from './KnowledgeShareFeed';
+import {
+  Users as UsersIcon,
+  FileText,
+  MessageSquare,
+  BarChart3,
+  ShieldCheck,
+  Megaphone,
+  Plus,
+  MoreVertical,
+  Edit,
+  Trash2,
   CheckCircle,
   AlertCircle,
   History,
@@ -55,8 +55,16 @@ const AdminDashboard = () => {
   const renderAdminContent = () => {
     switch (activeTab) {
       case 'overview':
-        return <StaffDashboard />; // Overview is the regular staff view + extra stats
-      
+        return (
+          <div className="pt-10">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <div className="w-2 h-8 bg-indigo-500 rounded-full" />
+              Admin Discussion
+            </h2>
+            <KnowledgeShareFeed role="STAFF" />
+          </div>
+        );
+
       case 'content':
         return (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -111,13 +119,13 @@ const AdminDashboard = () => {
                       {u.name.charAt(0)}
                     </div>
                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                       <button className="p-2 hover:bg-white/10 rounded-full text-accent"><Edit className="w-4 h-4" /></button>
-                       <button 
-                         onClick={() => handleDeleteUser(u.id)}
-                         className="p-2 hover:bg-red-500/10 rounded-full text-red-500"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                      <button className="p-2 hover:bg-white/10 rounded-full text-accent"><Edit className="w-4 h-4" /></button>
+                      <button
+                        onClick={() => handleDeleteUser(u.id)}
+                        className="p-2 hover:bg-red-500/10 rounded-full text-red-500"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
                   <h3 className="font-bold mb-1">{u.name}</h3>
@@ -137,36 +145,36 @@ const AdminDashboard = () => {
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h2 className="text-2xl font-bold mb-8">{t.admin.messages}</h2>
             <div className="glass rounded-[2rem] border border-white/10 overflow-hidden">
-               {contactMessages.length > 0 ? (
-                 <table className="w-full text-left">
-                    <thead className="bg-white/5 text-[10px] uppercase font-bold tracking-widest opacity-50">
-                      <tr>
-                        <th className="px-6 py-4">Sender</th>
-                        <th className="px-6 py-4">Subject</th>
-                        <th className="px-6 py-4">Message</th>
-                        <th className="px-6 py-4">Date</th>
+              {contactMessages.length > 0 ? (
+                <table className="w-full text-left">
+                  <thead className="bg-white/5 text-[10px] uppercase font-bold tracking-widest opacity-50">
+                    <tr>
+                      <th className="px-6 py-4">Sender</th>
+                      <th className="px-6 py-4">Subject</th>
+                      <th className="px-6 py-4">Message</th>
+                      <th className="px-6 py-4">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {contactMessages.map((msg, i) => (
+                      <tr key={i} className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4">
+                          <p className="font-bold text-sm">{msg.name}</p>
+                          <p className="text-[10px] opacity-40">{msg.email}</p>
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium">{msg.subject}</td>
+                        <td className="px-6 py-4 text-xs opacity-60 max-w-xs truncate">{msg.message}</td>
+                        <td className="px-6 py-4 text-[10px] opacity-40">{msg.date}</td>
                       </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5">
-                      {contactMessages.map((msg, i) => (
-                        <tr key={i} className="hover:bg-white/5 transition-colors">
-                          <td className="px-6 py-4">
-                            <p className="font-bold text-sm">{msg.name}</p>
-                            <p className="text-[10px] opacity-40">{msg.email}</p>
-                          </td>
-                          <td className="px-6 py-4 text-sm font-medium">{msg.subject}</td>
-                          <td className="px-6 py-4 text-xs opacity-60 max-w-xs truncate">{msg.message}</td>
-                          <td className="px-6 py-4 text-[10px] opacity-40">{msg.date}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                 </table>
-               ) : (
-                 <div className="p-20 text-center opacity-50">
-                    <MailIcon className="w-12 h-12 mx-auto mb-4 opacity-20" />
-                    <p>No contact messages yet.</p>
-                 </div>
-               )}
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <div className="p-20 text-center opacity-50">
+                  <MailIcon className="w-12 h-12 mx-auto mb-4 opacity-20" />
+                  <p>No contact messages yet.</p>
+                </div>
+              )}
             </div>
           </div>
         );
@@ -180,17 +188,15 @@ const AdminDashboard = () => {
                 <div key={ticket.id} className="glass p-6 rounded-3xl border border-white/10 hover:bg-white/5 transition-all">
                   <div className="flex flex-col md:flex-row justify-between gap-4">
                     <div className="flex items-start gap-4">
-                      <div className={`p-3 rounded-2xl ${
-                        ticket.priority === 'HIGH' ? 'bg-red-500/20 text-red-500' : 'bg-amber-500/20 text-amber-500'
-                      }`}>
+                      <div className={`p-3 rounded-2xl ${ticket.priority === 'HIGH' ? 'bg-red-500/20 text-red-500' : 'bg-amber-500/20 text-amber-500'
+                        }`}>
                         <AlertCircle className="w-6 h-6" />
                       </div>
                       <div>
                         <div className="flex items-center gap-3 mb-1">
                           <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest">{ticket.category}</span>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                            ticket.status === 'OPEN' ? 'bg-red-500/20 text-red-500' : 'bg-blue-500/20 text-blue-500'
-                          }`}>{ticket.status}</span>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${ticket.status === 'OPEN' ? 'bg-red-500/20 text-red-500' : 'bg-blue-500/20 text-blue-500'
+                            }`}>{ticket.status}</span>
                         </div>
                         <h4 className="font-bold text-lg mb-2">{ticket.title}</h4>
                         <p className="text-sm opacity-60 mb-4">{ticket.description}</p>
@@ -258,15 +264,13 @@ const AdminDashboard = () => {
           </div>
         );
 
-      default:
-        return <StaffDashboard />;
     }
   };
 
   return (
     <div className="space-y-6 pb-20">
       <Breadcrumb />
-      
+
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -281,9 +285,9 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <Link 
+        <Link
           href="/"
-          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-purple-500/20 text-purple-500 font-bold hover:bg-purple-500 hover:text-white transition-all shadow-lg group self-start md:self-center"
+          className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
         >
           <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
           {translations[language].nav.exitHub}
@@ -291,16 +295,15 @@ const AdminDashboard = () => {
       </div>
 
       {/* Admin Tabs */}
-      <div className="flex gap-2 overflow-x-auto p-1 bg-foreground/5 rounded-[2rem] w-full max-w-4xl border border-white/5">
+      <div className="flex gap-2 overflow-x-auto p-1 bg-foreground/5 rounded-[2rem] w-full max-w-5xl border border-white/5">
         {adminTabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
-            className={`flex items-center gap-2 px-6 py-3 rounded-[1.5rem] text-sm font-bold transition-all whitespace-nowrap ${
-              activeTab === tab.id 
-                ? 'bg-white text-black shadow-xl ring-1 ring-black/5' 
-                : 'opacity-50 hover:opacity-100 hover:bg-white/5'
-            }`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-[1.5rem] text-sm font-bold transition-all whitespace-nowrap ${activeTab === tab.id
+              ? 'bg-white text-black shadow-xl ring-1 ring-black/5'
+              : 'opacity-50 hover:opacity-100 hover:bg-white/5'
+              }`}
           >
             <tab.icon className="w-4 h-4" />
             {tab.label}

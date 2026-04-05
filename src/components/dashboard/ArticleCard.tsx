@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Clock, Tag, ChevronRight, Bookmark, ThumbsUp, Printer, Share2 } from 'lucide-react';
+import { Clock, Tag, ChevronRight, Bookmark, ThumbsUp, Printer } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { translations } from '@/lib/translations';
 import { Article } from '@/lib/mockData';
 import Image from 'next/image';
 import Link from 'next/link';
+import EthiopianDate from './EthiopianDate';
 
 interface ArticleCardProps {
   article: Article;
@@ -38,11 +39,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           <span className="px-3 py-1 glass rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md border border-white/20">
             {getCategoryLabel(article.category)}
           </span>
-          {article.version && (
-            <span className="px-3 py-1 bg-accent/90 text-white rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
-              {article.version}
-            </span>
-          )}
         </div>
         
         <button className="absolute top-4 right-4 p-2 glass rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-accent hover:text-white transform translate-y-[-10px] group-hover:translate-y-0">
@@ -59,7 +55,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           </span>
           <span className="flex items-center gap-1">
             <Tag className="w-3 h-3" />
-            {article.date}
+            <EthiopianDate date={article.date} />
           </span>
         </div>
 

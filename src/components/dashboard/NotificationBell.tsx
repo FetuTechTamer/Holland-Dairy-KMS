@@ -6,6 +6,7 @@ import { useNotifications } from '@/context/NotificationContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { translations } from '@/lib/translations';
 import Link from 'next/link';
+import EthiopianDate from './EthiopianDate';
 
 const NotificationBell = () => {
   const { notifications, unreadCount, markAsRead } = useNotifications();
@@ -58,7 +59,7 @@ const NotificationBell = () => {
                     <div className="flex justify-between items-start mb-1">
                       <span className="text-sm font-bold">{notif.title}</span>
                       <span className="text-[10px] text-foreground/50">
-                        {new Date(notif.timestamp).toLocaleDateString()}
+                        <EthiopianDate date={notif.timestamp} />
                       </span>
                     </div>
                     <p className="text-xs text-foreground/70 line-clamp-2">{notif.message}</p>

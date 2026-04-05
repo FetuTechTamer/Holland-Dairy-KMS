@@ -99,6 +99,26 @@ const LoginPage = () => {
             <p className="text-foreground/50 font-medium">{t.loginSubtitle}</p>
           </div>
 
+          {/* Demo Credentials */}
+          <div className="mb-6">
+            <p className="text-[10px] font-black opacity-30 uppercase tracking-widest mb-2">
+              {language === 'am' ? 'ፈጣን ሙከራ' : 'Quick Demo'}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { label: language === 'am' ? 'አርሶ አደር' : 'Farmer', email: 'farmer@holland.com', pass: 'farmer123', color: 'bg-green-500/10 text-green-500 border-green-500/20' },
+                { label: language === 'am' ? 'ሰራተኛ' : 'Staff', email: 'staff@holland.com', pass: 'staff123', color: 'bg-blue-500/10 text-blue-500 border-blue-500/20' },
+                { label: language === 'am' ? 'አስተዳዳሪ' : 'Admin', email: 'admin@holland.com', pass: 'admin123', color: 'bg-purple-500/10 text-purple-500 border-purple-500/20' },
+              ].map(demo => (
+                <button key={demo.email} type="button"
+                  onClick={() => setFormData({ email: demo.email, password: demo.pass })}
+                  className={`px-3 py-1.5 rounded-full text-[10px] font-black border transition-all hover:scale-105 ${demo.color}`}>
+                  {demo.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl text-red-500 text-sm font-bold mb-6 animate-in shake duration-300">
               {error}

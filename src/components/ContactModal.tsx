@@ -113,7 +113,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
               </div>
               <div>
                 <p className="text-sm text-white/50">{t.address}</p>
-                <p className="font-semibold">Addis Ababa, Ethiopia</p>
+                <p className="font-semibold">Bishoftu, Ethiopia</p>
               </div>
             </div>
             

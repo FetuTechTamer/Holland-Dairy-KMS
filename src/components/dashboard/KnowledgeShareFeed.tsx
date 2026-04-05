@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { translations } from '@/lib/translations';
 import { Post, mockPosts, Role } from '@/lib/mockData';
 import RoleBadge from './RoleBadge';
+import EthiopianDate from './EthiopianDate';
 
 interface KnowledgeShareFeedProps {
   role: Role;
@@ -142,7 +143,7 @@ const KnowledgeShareFeed: React.FC<KnowledgeShareFeedProps> = ({ role, isAdmin =
                       {post.authorRole === 'ADMIN' && <Pin className="w-3 h-3 text-purple-400 rotate-45" />}
                     </div>
                     <span className="text-[10px] opacity-50">
-                      {new Date(post.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      <EthiopianDate date={post.timestamp} />
                     </span>
                   </div>
                 </div>

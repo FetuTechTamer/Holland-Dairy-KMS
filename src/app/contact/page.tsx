@@ -153,7 +153,7 @@ const ContactPage = () => {
                         </div>
                         <div>
                            <p className="text-[10px] font-black opacity-50 uppercase tracking-widest mb-1">{t.address}</p>
-                           <p className="text-xl font-bold">Addis Ababa, Ethiopia</p>
+                           <p className="text-xl font-bold">Bishoftu, Ethiopia</p>
                         </div>
                       </div>
 

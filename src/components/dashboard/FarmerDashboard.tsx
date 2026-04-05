@@ -4,188 +4,214 @@ import React, { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
 import { translations } from '@/lib/translations';
-import { farmerArticles, Article } from '@/lib/mockData';
+import { allArticles, tutorialVideos, smsAlerts, paymentRecords, milkRecords as baseMilkRecords, MilkRecord } from '@/lib/mockData';
 import { filterArticles } from '@/lib/searchHelpers';
-import GlobalSearchBar from './GlobalSearchBar';
-import StatsCards from './StatsCards';
 import ArticleCard from './ArticleCard';
 import KnowledgeShareFeed from './KnowledgeShareFeed';
-import { ChevronRight, Calendar, AlertTriangle, Phone, History, BookMarked } from 'lucide-react';
+import VideoGrid from './VideoGrid';
 import RoleBadge from './RoleBadge';
 import Breadcrumb from '../Breadcrumb';
-import Link from 'next/link';
 import EthiopianDate from './EthiopianDate';
-import VideoGrid from './VideoGrid';
-import KnowledgeCalculator from './KnowledgeCalculator';
+import Link from 'next/link';
+import {
+  History,
+  Edit3, MessageCircle,
+  BookOpen, X, Leaf, GraduationCap
+} from 'lucide-react';
+import { getTodayEthiopian } from '@/lib/ethiopianCalendar';
 
 const FarmerDashboard = () => {
   const { language } = useLanguage();
   const { user } = useAuth();
   const t = translations[language].dashboard;
+  const tF = translations[language].farmer;
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [activeTab, setActiveTab] = useState<'knowledge' | 'chat' | 'training' | 'notes'>('knowledge');
 
-  const filteredArticles = filterArticles(farmerArticles, searchQuery, activeCategory);
+  // Milk records state
+  const [milkRecords, setMilkRecords] = useState<MilkRecord[]>(baseMilkRecords.filter(r => r.farmerId === '2'));
+  const [showMilkForm, setShowMilkForm] = useState(false);
+  const [milkForm, setMilkForm] = useState({ liters: '', quality: 'A' as 'A' | 'B' | 'C', notes: '' });
+
+  // Notes state
+  const [notes, setNotes] = useState<{ id: string; text: string; date: string }[]>([
+    { id: 'note1', text: 'Remember to clean water troughs before morning collection.', date: '1/9/2019' },
+  ]);
+  const [noteText, setNoteText] = useState('');
+
+  const farmerAllowedCats = ['cat3', 'cat9', 'cat11'];
+  const farmerBaseArticles = allArticles.filter(a =>
+    (a.role === 'FARMER' || a.role === 'BOTH') && farmerAllowedCats.includes(a.category)
+  );
+  const filteredArticles = filterArticles(farmerBaseArticles, searchQuery, activeCategory);
+
+  const farmerVideos = tutorialVideos.filter(v => v.role === 'FARMER' || v.role === 'BOTH');
+  const myPayments = paymentRecords.filter(p => p.farmerId === '2');
 
   const categories = [
     { id: 'all', label: t.categories.all },
-    { id: 'health', label: t.categories.health },
-    { id: 'milkQuality', label: t.categories.milkQuality },
-    { id: 'breeding', label: t.categories.breeding },
-    { id: 'nutrition', label: t.categories.nutrition },
+    { id: 'cat3', label: t.categories.cat3 },
+    { id: 'cat9', label: t.categories.cat9 },
+    { id: 'cat11', label: t.categories.cat11 },
   ];
+
+  const tabs = [
+    { id: 'knowledge', label: language === 'am' ? 'እውቀት' : 'Knowledge', icon: BookOpen },
+    { id: 'chat', label: language === 'am' ? 'ውይይት' : 'Chat', icon: MessageCircle },
+    { id: 'training', label: language === 'am' ? 'ስልጠና' : 'Training', icon: GraduationCap },
+    { id: 'notes', label: language === 'am' ? 'ማስታወሻዎች' : 'Notes', icon: Edit3 },
+
+  ];
+
+  const handleAddMilk = () => {
+    if (!milkForm.liters) return;
+    const newRec: MilkRecord = {
+      id: `mr-${Date.now()}`,
+      farmerId: user?.id || '2',
+      date: getTodayEthiopian(),
+      liters: Number(milkForm.liters),
+      quality: milkForm.quality,
+      notes: milkForm.notes,
+    };
+    setMilkRecords([newRec, ...milkRecords]);
+    setMilkForm({ liters: '', quality: 'A', notes: '' });
+    setShowMilkForm(false);
+  };
+
+  const alertTypeColor = (type: string) => {
+    switch (type) {
+      case 'DISEASE': return 'bg-red-500/20 text-red-500';
+      case 'PRICE': return 'bg-green-500/20 text-green-500';
+      case 'EVENT': return 'bg-purple-500/20 text-purple-500';
+      default: return 'bg-blue-500/20 text-blue-500';
+    }
+  };
 
   return (
     <div className="space-y-6 pb-20">
       <Breadcrumb />
-      
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">
             {t.welcome}, <span className="text-accent">{user?.name}</span>
           </h1>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <RoleBadge role="FARMER" />
-            <span className="text-sm opacity-50 font-medium tracking-wide">
-              MEMBER SINCE {user?.joinDate}
+            {user?.farmName && (
+              <span className="text-sm font-medium opacity-60 flex items-center gap-1">
+                <Leaf className="w-4 h-4" />{user.farmName}
+              </span>
+            )}
+            <span className="text-sm opacity-50 font-medium">
+              {t.ethiopianDate}: <EthiopianDate className="font-bold text-foreground" />
             </span>
           </div>
         </div>
+        <Link href="/" className="flex items-center gap-2 px-5 py-2.5 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all self-start">
+          <History className="w-4 h-4 -rotate-90" />
+          {translations[language].nav.exitHub}
+        </Link>
+      </div>
 
-        <div className="flex items-center gap-4">
-          <EthiopianDate />
-          <Link 
-            href="/"
-            className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-accent/20 text-accent font-bold hover:bg-accent hover:text-white transition-all shadow-lg group self-start md:self-center"
+      {/* Tabs */}
+      <div className="flex gap-2 overflow-x-auto p-1.5 bg-foreground/5 rounded-[2rem] border border-white/5 scrollbar-hide">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id as typeof activeTab)}
+            className={`flex items-center gap-2 px-5 py-3 rounded-[1.5rem] text-sm font-bold transition-all whitespace-nowrap ${activeTab === tab.id ? 'bg-accent text-white shadow-lg' : 'opacity-50 hover:opacity-100'
+              }`}
           >
-            <History className="w-5 h-5 -rotate-90 group-hover:-translate-x-1 transition-transform" />
-            {translations[language].nav.exitHub}
-          </Link>
-        </div>
+            <tab.icon className="w-4 h-4" />
+            {tab.label}
+          </button>
+        ))}
       </div>
 
-      {/* Search Bar */}
-      <GlobalSearchBar onSearch={setSearchQuery} />
-
-      {/* Stats Section */}
-      <StatsCards role="FARMER" />
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* Main Content: Knowledge Base */}
-        <div className="lg:col-span-2 space-y-8">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
-              <div className="w-2 h-8 bg-accent rounded-full" />
-              {t.sections.featured}
-            </h2>
-            
-            {/* Category Filter */}
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+      {/* Tab: Knowledge */}
+      {activeTab === 'knowledge' && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-3 space-y-8">
+            <div className="flex flex-wrap gap-2">
               {categories.map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
-                    activeCategory === cat.id 
-                      ? 'bg-accent text-white shadow-lg' 
-                      : 'glass border border-white/10 hover:bg-white/5'
-                  }`}
-                >
-                  {cat.label}
+                <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeCategory === cat.id ? 'bg-accent text-white' : 'glass border border-white/10 hover:bg-white/5'
+                    }`}>{cat.label}</button>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {filteredArticles.length > 0 ? filteredArticles.map(a => <ArticleCard key={a.id} article={a} />) : (
+                <div className="col-span-full py-16 text-center glass rounded-3xl opacity-50">
+                  <p>{language === 'am' ? 'ምንም ጽሁፍ አልተገኘም' : 'No articles found'}</p>
+                </div>
+              )}
+            </div>
+
+          </div>
+
+        </div>
+      )}
+
+      {/* Tab: Chat */}
+      {activeTab === 'chat' && (
+        <div>
+          <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
+            <div className="w-2 h-7 bg-blue-500 rounded-full" />
+            {t.sections.knowledgeShare}
+          </h2>
+          <KnowledgeShareFeed role="FARMER" />
+        </div>
+      )}
+
+      {/* Tab: Training */}
+      {activeTab === 'training' && (
+        <div>
+          <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
+            <div className="w-2 h-7 bg-purple-500 rounded-full" />
+            {t.sections.videoTraining}
+          </h2>
+          <VideoGrid role="FARMER" />
+        </div>
+      )}
+
+      {/* Tab: Notes */}
+      {activeTab === 'notes' && (
+        <div className="space-y-5">
+          <h2 className="text-2xl font-bold">{language === 'am' ? 'የእርሻ ማስታወሻዎች' : 'Farm Notes'}</h2>
+          <div className="glass p-5 rounded-3xl border border-white/10">
+            <textarea
+              value={noteText}
+              onChange={e => setNoteText(e.target.value)}
+              placeholder={language === 'am' ? 'ማስታወሻ ይጻፉ...' : 'Write a note...'}
+              className="w-full bg-transparent outline-none resize-none min-h-[100px] text-sm"
+            />
+            <div className="flex justify-end mt-3">
+              <button onClick={() => {
+                if (!noteText.trim()) return;
+                setNotes([{ id: `n-${Date.now()}`, text: noteText, date: getTodayEthiopian() }, ...notes]);
+                setNoteText('');
+              }} className="bg-accent text-white px-5 py-2 rounded-xl font-bold text-sm hover:shadow-lg transition-all">
+                {language === 'am' ? 'አስቀምጥ' : 'Save'}
+              </button>
+            </div>
+          </div>
+          {notes.map(n => (
+            <div key={n.id} className="glass p-5 rounded-2xl border border-white/10 flex justify-between items-start gap-4">
+              <p className="text-sm leading-relaxed flex-1">{n.text}</p>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-[10px] opacity-40">{n.date}</span>
+                <button onClick={() => setNotes(notes.filter(x => x.id !== n.id))}
+                  className="p-1 hover:text-red-500 opacity-30 hover:opacity-100 transition-all">
+                  <X className="w-3.5 h-3.5" />
                 </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredArticles.length > 0 ? (
-              filteredArticles.map(article => (
-                <ArticleCard key={article.id} article={article} />
-              ))
-            ) : (
-              <div className="col-span-full py-20 text-center glass rounded-3xl border border-white/5 opacity-50">
-                <p>No articles found for "{searchQuery}"</p>
               </div>
-            )}
-          </div>
-
-          {/* Video Training Section */}
-          <div className="pt-10">
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <div className="w-2 h-8 bg-purple-500 rounded-full" />
-              {t.sections.videoTraining}
-            </h2>
-            <VideoGrid role="FARMER" />
-          </div>
-
-          {/* Community Section */}
-          <div className="pt-10">
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <div className="w-2 h-8 bg-blue-500 rounded-full" />
-              {t.sections.knowledgeShare}
-            </h2>
-            <KnowledgeShareFeed role="FARMER" />
-          </div>
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-8">
-          {/* Quick Actions */}
-          <div className="glass p-8 rounded-[2rem] border border-white/10 shadow-xl">
-            <h3 className="text-xl font-bold mb-6">Quick Actions</h3>
-            <div className="space-y-4">
-              <button className="w-full flex items-center justify-between p-4 rounded-2xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all group">
-                <div className="flex items-center gap-3">
-                  <AlertTriangle className="w-5 h-5" />
-                  <span className="font-bold text-sm">Report Emergency</span>
-                </div>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="w-full flex items-center justify-between p-4 rounded-2xl glass hover:bg-accent hover:text-white transition-all group">
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5" />
-                  <span className="font-bold text-sm">Contact Officer</span>
-                </div>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="w-full flex items-center justify-between p-4 rounded-2xl glass hover:bg-accent hover:text-white transition-all group">
-                <div className="flex items-center gap-3">
-                  <History className="w-5 h-5" />
-                  <span className="font-bold text-sm">Payment History</span>
-                </div>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
             </div>
-          </div>
-
-          {/* Library Section replaced by Calculator */}
-          <KnowledgeCalculator />
-
-          {/* Company Updates */}
-          <div className="glass p-8 rounded-[2rem] border border-white/10">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-blue-500" />
-              Company Updates
-            </h3>
-            <div className="space-y-6">
-              {[
-                { title: 'Milk Price Increase', date: 'April 1st', tag: 'Price' },
-                { title: 'New Collection Zone', date: 'March 28th', tag: 'Route' },
-                { title: 'Farmer Training Day', date: 'April 15th', tag: 'Event' },
-              ].map((update, i) => (
-                <div key={i} className="group cursor-pointer">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-bold text-accent uppercase tracking-widest">{update.tag}</span>
-                    <span className="text-[10px] opacity-40">{update.date}</span>
-                  </div>
-                  <p className="font-bold text-sm group-hover:text-accent transition-colors">{update.title}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
 };

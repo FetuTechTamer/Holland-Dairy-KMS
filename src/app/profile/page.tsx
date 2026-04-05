@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import RoleBadge from '@/components/dashboard/RoleBadge';
 import { User, Mail, Calendar, Shield, Settings, Bell, Lock, LogOut } from 'lucide-react';
+import EthiopianDate from '@/components/dashboard/EthiopianDate';
 
 const ProfilePage = () => {
   const { user, logout } = useAuth();
@@ -49,7 +50,7 @@ const ProfilePage = () => {
                 <p className="text-[10px] font-black opacity-30 uppercase tracking-widest px-2">Account Stats</p>
                 <div className="flex justify-between items-center p-3 rounded-xl hover:bg-white/5 transition-colors">
                   <span className="text-sm opacity-60">Join Date</span>
-                  <span className="text-sm font-bold">{user.joinDate}</span>
+                  <span className="text-sm font-bold"><EthiopianDate date={user.joinDate} /></span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl hover:bg-white/5 transition-colors">
                   <span className="text-sm opacity-60">Status</span>

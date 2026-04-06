@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 /* Brand Colors */
 :root {
   --color-brand-light: #86EFAC;
@@ -11,28 +12,37 @@
   --color-brand-deep-green: #064E3B;
   /* dark green for dark mode buttons */
   --color-brand-accent-green: #10B981;
-  /* secondary accents */
+}
 
+/* secondary accents */
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #1F2937;
+  --accent: #86EFAC;
 
   /* Site variables for Tailwind integration */
-  --background: #ffffff;
-  /* clean white background (light mode default) */
+  --background: #188a6b;
+  /* soft light green background */
   --foreground: #111827;
   /* dark text */
-  --accent: #2E7D64;
-  /* sage green – brand primary */
-  --primary: #2E7D64;
+  --accent: #34D399;
+  /* fresh green highlight */
+  --primary: #22C55E;
   /* CTA buttons, links */
 }
 
 .dark {
-  --background: #0a1a14;
-  /* deep dark green background */
+  --background: #1F2937;
+  --foreground: #FFFFFF;
+  --background: #053b2d;
+  /* dark background */
   --foreground: #F9FAFB;
   /* white text */
-  --accent: #2E7D64;
-  /* sage green stays consistent */
-  --primary: #2E7D64;
+  --accent: #10B981;
+  --primary: #064E3B;
+  /* bright accent green */
+  --primary: #059669;
   /* primary CTA buttons in dark mode */
 }
 
@@ -93,50 +103,136 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
 /* Animate in utilities */
 @keyframes slide-in-from-top-4 {
-  from { transform: translateY(-1rem); opacity: 0; }
-  to   { transform: translateY(0);     opacity: 1; }
+  from {
+    transform: translateY(-1rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
+
 @keyframes slide-in-from-top-2 {
-  from { transform: translateY(-0.5rem); opacity: 0; }
-  to   { transform: translateY(0);       opacity: 1; }
+  from {
+    transform: translateY(-0.5rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
+
 @keyframes slide-in-from-right {
-  from { transform: translateX(1rem); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
+  from {
+    transform: translateX(1rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
+
 @keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 @keyframes zoom-in-95 {
-  from { transform: scale(0.95); opacity: 0; }
-  to   { transform: scale(1);    opacity: 1; }
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
+
 @keyframes slide-in-from-bottom-4 {
-  from { transform: translateY(1rem); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .animate-in {
   animation-fill-mode: both;
   animation-duration: 400ms;
 }
-.slide-in-from-top-4  { animation-name: slide-in-from-top-4;  }
-.slide-in-from-top-2  { animation-name: slide-in-from-top-2;  }
-.slide-in-from-right  { animation-name: slide-in-from-right;  }
-.slide-in-from-bottom-4 { animation-name: slide-in-from-bottom-4; }
-.fade-in              { animation-name: fade-in;              }
-.zoom-in-95           { animation-name: zoom-in-95;           }
-.duration-200         { animation-duration: 200ms; }
-.duration-300         { animation-duration: 300ms; }
-.duration-500         { animation-duration: 500ms; }
+
+.slide-in-from-top-4 {
+  animation-name: slide-in-from-top-4;
+}
+
+.slide-in-from-top-2 {
+  animation-name: slide-in-from-top-2;
+}
+
+.slide-in-from-right {
+  animation-name: slide-in-from-right;
+}
+
+.slide-in-from-bottom-4 {
+  animation-name: slide-in-from-bottom-4;
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.zoom-in-95 {
+  animation-name: zoom-in-95;
+}
+
+.duration-200 {
+  animation-duration: 200ms;
+}
+
+.duration-300 {
+  animation-duration: 300ms;
+}
+
+.duration-500 {
+  animation-duration: 500ms;
+}
 
 /* Line clamp (native CSS, supported in modern browsers) */
-.line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

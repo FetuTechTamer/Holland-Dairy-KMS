@@ -273,7 +273,7 @@ export const allArticles: Article[] = [
     category: 'cat1',
     role: 'STAFF',
     readTime: '10 min',
-    image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&q=80&w=1200?auto=format&fit=crop&q=80&w=800',
     date: '2025-06-10',
     author: 'Production Team',
   },

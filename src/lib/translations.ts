@@ -82,6 +82,10 @@ export const translations = {
         cat9: "አካባቢ እና ዘላቂነት",
         cat10: "የአደጋ ስጋት አመራር እና ቀውስ",
         cat11: "አጋርነት እና ባለድርሻ አካላት",
+        manufacturing: "የመመረት ሂደቶች",
+        suppliers: "የአቅራቢዎች አያያዝ",
+        demographics: "የስነ-ህዝብ እና የሽያጭ መረጃ",
+        insights: "የደንበኛ ግንዛቤዎች",
         // Legacy support
         health: "ጤና",
         milkQuality: "የወተት ጥራት",
@@ -396,6 +400,10 @@ export const translations = {
         cat9: "Environmental & Sustainability Knowledge",
         cat10: "Risk Management & Crisis Knowledge",
         cat11: "Partnerships & Stakeholder Knowledge",
+        manufacturing: "Manufacturing Processes",
+        suppliers: "Supplier Management",
+        demographics: "Sales & Demographics",
+        insights: "Customer Insights",
         // Legacy support
         health: "Health",
         milkQuality: "Milk Quality",

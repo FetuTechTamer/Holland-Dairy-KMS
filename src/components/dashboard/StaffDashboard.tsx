@@ -13,15 +13,17 @@ import RoleBadge from './RoleBadge';
 import Breadcrumb from '../Breadcrumb';
 import EthiopianDate from './EthiopianDate';
 import Link from 'next/link';
+import LegacyStories from '../staff/LegacyStories';
+import { Search } from 'lucide-react';
 import { getTodayEthiopian } from '@/lib/ethiopianCalendar';
 import {
-  History, Shield, Settings, ClipboardList, HardHat,
-  BookOpen, FlaskConical, Wrench, Thermometer, ChefHat, X, AlertTriangle,
-  Users, AlertCircle, CheckCircle, TrendingUp, XCircle, Clock, Plus, MessageCircle, GraduationCap,
+  History, ClipboardList,
+  BookOpen, FlaskConical, Thermometer, ChefHat, X, AlertTriangle,
+  Users, AlertCircle, CheckCircle, TrendingUp, XCircle, Plus, MessageCircle, GraduationCap,
   Notebook
 } from 'lucide-react';
 
-type StaffTab = 'knowledge' | 'batches' | 'qc' | 'recipes' | 'farmers' | 'chat' | 'training' | 'notes';
+type StaffTab = 'knowledge' | 'batches' | 'qc' | 'recipes' | 'chat' | 'training' | 'notes' | 'analytics' | 'legacy';
 
 // Quality Control Dashboard Component
 const QualityDashboard = ({ language }: { language: string }) => {
@@ -180,7 +182,7 @@ const StaffDashboard = () => {
   ]);
   const [noteText, setNoteText] = useState('');
 
-  const staffAllowedCats = ['cat1', 'cat2', 'cat3', 'cat6', 'cat7', 'cat9', 'cat10', 'cat11'];
+  const staffAllowedCats = ['cat1', 'cat2', 'cat3', 'cat6', 'cat7', 'cat9', 'cat10', 'cat11', 'manufacturing', 'suppliers', 'demographics', 'insights'];
   const staffBaseArticles = allArticles.filter(a =>
     (a.role === 'STAFF' || a.role === 'BOTH') && staffAllowedCats.includes(a.category)
   );
@@ -188,6 +190,10 @@ const StaffDashboard = () => {
 
   const categories = [
     { id: 'all', label: t.categories.all },
+    { id: 'manufacturing', label: t.categories.manufacturing || 'Manufacturing Processes' },
+    { id: 'suppliers', label: t.categories.suppliers || 'Supplier Management' },
+    { id: 'demographics', label: t.categories.demographics || 'Sales & Demographics' },
+    { id: 'insights', label: t.categories.insights || 'Customer Insights' },
     { id: 'cat1', label: t.categories.cat1 },
     { id: 'cat2', label: t.categories.cat2 },
     { id: 'cat6', label: t.categories.cat6 },
@@ -200,10 +206,11 @@ const StaffDashboard = () => {
     { id: 'batches', label: language === 'am' ? 'ምርት ባቹ' : 'Batches', icon: ClipboardList },
     { id: 'qc', label: language === 'am' ? 'QC ላብ' : 'Quality Control Lab', icon: FlaskConical },
     { id: 'recipes', label: language === 'am' ? 'ምግብ ቀመሮች' : 'Recipes', icon: ChefHat },
-    { id: 'farmers', label: language === 'am' ? 'አርሶ አደሮች' : 'Farmers Support', icon: Users },
     { id: 'chat', label: language === 'am' ? 'ውይይት' : 'Chat', icon: MessageCircle },
     { id: 'training', label: language === 'am' ? 'ስልጠና' : 'Training', icon: GraduationCap },
     { id: 'notes', label: language === 'am' ? 'ማስታወሻዎች' : 'Notes', icon: Notebook },
+    { id: 'analytics', label: language === 'am' ? 'ትንታኔ' : 'Analytics', icon: TrendingUp },
+    { id: 'legacy', label: language === 'am' ? 'የተማርናቸው ትምህርቶች' : 'Lessons Learned', icon: BookOpen },
   ];
 
   const statusColor = (status: string) => {
@@ -272,93 +279,51 @@ const StaffDashboard = () => {
         ))}
       </div>
 
-      {/* ── KNOWLEDGE ── */}
+      {/* Tab: Knowledge */}
       {activeTab === 'knowledge' && (
-        <div className="space-y-8">
-          {/* Categories & Articles Section */}
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-3 space-y-8">
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={language === 'am' ? 'በእውቀት ቋት ውስጥ ፈልግ...' : 'Search knowledge base...'}
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-10 pr-4 outline-none focus:border-accent/50 transition-all text-sm"
+              />
+            </div>
+
+            {/* Category Filters */}
             <div className="flex flex-wrap gap-2">
               {categories.map(cat => (
                 <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeCategory === cat.id ? 'bg-blue-500 text-white' : 'glass border border-white/10 hover:bg-white/5'
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeCategory === cat.id ? 'bg-accent text-white' : 'glass border border-white/10 hover:bg-white/5'
                     }`}>{cat.label}</button>
               ))}
             </div>
+
+            {/* Results Count */}
+            <div className="text-xs opacity-50">
+              {filteredArticles.length} {language === 'am' ? 'ውጤቶች ተገኝተዋል' : 'results found'}
+            </div>
+
+            {/* Articles Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {filteredArticles.map(a => <ArticleCard key={a.id} article={a} />)}
-              {filteredArticles.length === 0 && (
+              {filteredArticles.length > 0 ? filteredArticles.map(a => <ArticleCard key={a.id} article={a} />) : (
                 <div className="col-span-full py-16 text-center glass rounded-3xl opacity-50">
                   <p>{language === 'am' ? 'ምንም ጽሁፍ አልተገኘም' : 'No articles found'}</p>
+                  {searchQuery && (
+                    <button
+                      onClick={() => { setSearchQuery(''); setActiveCategory('all'); }}
+                      className="mt-3 text-accent text-sm underline"
+                    >
+                      {language === 'am' ? 'ፍለጋን አጽዳ' : 'Clear search'}
+                    </button>
+                  )}
                 </div>
               )}
-            </div>
-          </div>
-
-          {/* Sidebar - Below all categories and articles */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Quick Actions */}
-            <div className="glass p-6 rounded-3xl border border-white/10">
-              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                <Settings className="w-5 h-5 text-blue-500" />
-                {language === 'am' ? 'ፈጣን ድርጊቶች' : 'Quick Actions'}
-              </h3>
-              <div className="space-y-3">
-                {[
-                  { label: language === 'am' ? 'ደህንነት ሪፖርት' : 'Report Safety Issue', icon: Shield, color: 'bg-red-500/10 text-red-500 hover:bg-red-500' },
-                  { label: language === 'am' ? 'ጥገና ጠይቅ' : 'Request Maintenance', icon: Wrench, color: 'bg-amber-500/10 text-amber-500 hover:bg-amber-500' },
-                  { label: language === 'am' ? 'QC ዳሽቦርድ' : 'QC Dashboard', icon: FlaskConical, color: 'bg-blue-500/10 text-blue-500 hover:bg-blue-500', href: '/quality-dashboard' },
-                ].map((action, i) => action.href ? (
-                  <Link key={i} href={action.href}
-                    className={`w-full flex items-center gap-3 p-3.5 rounded-2xl ${action.color} hover:text-white transition-all group text-sm font-bold`}>
-                    <action.icon className="w-4 h-4" />
-                    {action.label}
-                  </Link>
-                ) : (
-                  <button key={i} className={`w-full flex items-center gap-3 p-3.5 rounded-2xl ${action.color} hover:text-white transition-all group text-sm font-bold`}>
-                    <action.icon className="w-4 h-4" />{action.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Maintenance due alerts */}
-            <div className="glass p-6 rounded-3xl border border-white/10">
-              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-amber-500" />
-                {language === 'am' ? 'ጥገና ማሳወቂያ' : 'Maintenance Alerts'}
-              </h3>
-              <div className="space-y-3">
-                {maintenanceLogs.filter(m => m.status !== 'OK').map(m => (
-                  <div key={m.id} className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20">
-                    <p className="text-xs font-bold text-amber-500">{m.status === 'OVERDUE' ? (language === 'am' ? 'ዘግይቷል' : '⚠ OVERDUE') : (language === 'am' ? 'ሊደርስ' : 'DUE')}</p>
-                    <p className="text-sm font-bold mt-1">{m.equipment}</p>
-                    <p className="text-[10px] opacity-50">{language === 'am' ? 'ቀጣይ:' : 'Due:'} {m.nextService}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Training progress */}
-            <div className="glass p-6 rounded-3xl border border-white/10">
-              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                <HardHat className="w-5 h-5 text-emerald-500" />
-                {language === 'am' ? 'ሥልጠናዬ' : 'My Training'}
-              </h3>
-              {[
-                { title: 'Dutch Quality Standards', progress: 100 },
-                { title: 'Chemical Safety v2', progress: 45 },
-                { title: 'Machine Operation Cert', progress: 0 },
-              ].map((tr, i) => (
-                <div key={i} className="mb-4">
-                  <div className="flex justify-between text-xs font-bold mb-1">
-                    <span className="opacity-70">{tr.title}</span>
-                    <span className={tr.progress === 100 ? 'text-emerald-500' : 'text-amber-500'}>{tr.progress}%</span>
-                  </div>
-                  <div className="h-1.5 w-full bg-white/10 rounded-full">
-                    <div className={`h-full rounded-full ${tr.progress === 100 ? 'bg-emerald-500' : 'bg-amber-500'}`} style={{ width: `${tr.progress}%` }} />
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -469,48 +434,12 @@ const StaffDashboard = () => {
         </div>
       )}
 
-      {/* ── FARMER ISSUES ── */}
-      {activeTab === 'farmers' && (
-        <div className="space-y-5">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">{language === 'am' ? 'የአርሶ አደር ጥያቄዎች' : 'Farmer Issues & Support'}</h2>
-            <Link href="/farmers" className="text-sm font-bold text-blue-500 hover:underline">{language === 'am' ? 'ሁሉም አርሶ አደሮች' : 'All Farmers'} →</Link>
-          </div>
-          <div className="space-y-4">
-            {farmerIssues.map(issue => (
-              <div key={issue.id} className="glass p-6 rounded-3xl border border-white/10 hover:border-blue-500/20 transition-all">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="flex items-start gap-4">
-                    <div className={`p-3 rounded-2xl ${issue.priority === 'HIGH' ? 'bg-red-500/20 text-red-500' : 'bg-amber-500/20 text-amber-500'}`}>
-                      <AlertCircle className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="font-black">{issue.farmer}</p>
-                      <p className="text-sm opacity-70 mt-1">{issue.issue}</p>
-                      <p className="text-[10px] opacity-40 mt-2">{issue.date}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${issue.status === 'OPEN' ? 'bg-red-500/20 text-red-500' : 'bg-blue-500/20 text-blue-500'}`}>
-                      {issue.status}
-                    </span>
-                    <button className="bg-blue-500 text-white text-xs font-bold px-4 py-2 rounded-xl hover:shadow-lg transition-all">
-                      {language === 'am' ? 'ምላሽ' : 'Respond'}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* ── CHATS── */}
       {activeTab === 'chat' && (
         <div>
           <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
             <div className="w-2 h-7 bg-indigo-500 rounded-full" />
-            {language === 'am' ? 'የሠራተኛ መወያያ' : 'Staff Discussion'}
+            {language === 'am' ? 'የሠራተኛ መወያያ' : 'Knowledge Sharing'}
           </h2>
           <KnowledgeShareFeed role="STAFF" />
         </div>
@@ -523,6 +452,95 @@ const StaffDashboard = () => {
             <div className="w-2 h-7 bg-purple-500 rounded-full" />{t.sections.videoTraining}
           </h2>
           <VideoGrid role="STAFF" />
+        </div>
+      )}
+
+      {/* ── LEGACY STORIES ── */}
+      {activeTab === 'legacy' && (
+        <LegacyStories />
+      )}
+
+      {/* ── ANALYTICS ── */}
+      {activeTab === 'analytics' && (
+        <div className="space-y-6 animate-in fade-in duration-500">
+          <h2 className="text-2xl font-bold flex items-center gap-2">
+            <TrendingUp className="w-6 h-6 text-blue-500" />
+            {language === 'am' ? 'የምርት አፈጻጸም ትንታኔ' : 'Product Performance Analytics'}
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Best Selling Products */}
+            <div className="glass p-5 rounded-3xl border border-white/10 flex flex-col items-stretch">
+              <h3 className="text-sm font-bold opacity-60 uppercase mb-4">{language === 'am' ? 'ምርጥ የሚሸጡ ምርቶች' : 'Best Selling Products'}</h3>
+              <ul className="space-y-3 flex-1 flex flex-col justify-center">
+                <li className="flex justify-between items-center bg-blue-500/10 p-4 rounded-2xl">
+                  <span className="font-bold">#1 Natural Yoghurt</span>
+                  <span className="text-[10px] uppercase font-black bg-blue-500 text-white px-3 py-1 rounded-full whitespace-nowrap">35% Margin</span>
+                </li>
+                <li className="flex justify-between items-center bg-pink-500/10 p-4 rounded-2xl">
+                  <span className="font-bold">#2 Strawberry Yoghurt</span>
+                  <span className="text-[10px] uppercase font-black bg-pink-500 text-white px-3 py-1 rounded-full whitespace-nowrap">40% Margin</span>
+                </li>
+                <li className="flex justify-between items-center bg-amber-500/10 p-4 rounded-2xl">
+                  <span className="font-bold">#3 Mango Drink</span>
+                  <span className="text-[10px] uppercase font-black bg-amber-500 text-white px-3 py-1 rounded-full whitespace-nowrap">38% Margin</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Quality & Returns */}
+            <div className="glass p-5 rounded-3xl border border-white/10 space-y-6">
+              <div>
+                <h3 className="text-sm font-bold opacity-60 uppercase mb-3">{language === 'am' ? 'የጥራት ውድቅ ምጣኔ' : 'Quality Rejection Rate'}</h3>
+                <div className="flex items-end gap-2 mb-2">
+                  <span className="text-4xl font-black text-green-500">1.2%</span>
+                  <span className="text-xs opacity-50 mb-1">by batch</span>
+                </div>
+                <div className="w-full bg-white/10 h-2.5 rounded-full overflow-hidden">
+                  <div className="bg-green-500 h-full rounded-full" style={{ width: '98.8%' }}></div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-bold opacity-60 uppercase mb-3">{language === 'am' ? 'የደንበኛ መመለስ ምጣኔ' : 'Customer Return Rate'}</h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center text-sm border-b border-white/5 pb-2">
+                    <span>Natural Yoghurt</span>
+                    <span className="font-bold bg-green-500/10 text-green-400 px-2.5 py-1 rounded-xl">0.05%</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span>Strawberry Yoghurt</span>
+                    <span className="font-bold bg-amber-500/10 text-amber-500 px-2.5 py-1 rounded-xl">0.12%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Monthly Production Volume */}
+            <div className="glass p-6 rounded-3xl border border-white/10 md:col-span-2 lg:col-span-1 border-t-4 border-t-blue-500">
+              <h3 className="text-sm font-bold opacity-60 uppercase mb-1">{language === 'am' ? 'ወርሃዊ ምርት መጠን' : 'Monthly Production Volume'}</h3>
+              <p className="text-[10px] opacity-40 mb-5 font-bold uppercase">{language === 'am' ? 'ያለፉት 6 ወራት (በኢት. አቆጣጠር)' : 'Last 6 months (Ethiopian Calendar)'}</p>
+
+              <div className="space-y-4">
+                {[
+                  { month: 'Meskerem', vol: 120000, color: 'bg-blue-400' },
+                  { month: 'Tikimt', vol: 115000, color: 'bg-blue-400' },
+                  { month: 'Hidar', vol: 130000, color: 'bg-blue-500' },
+                  { month: 'Tahsas', vol: 145000, color: 'bg-blue-600' },
+                  { month: 'Tir', vol: 140000, color: 'bg-blue-500' },
+                  { month: 'Yekatit', vol: 155000, color: 'bg-blue-500' },
+                ].map((m, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className="w-16 text-[10px] font-black uppercase opacity-60">{m.month}</span>
+                    <div className="flex-1 bg-white/5 h-3.5 rounded-full overflow-hidden">
+                      <div className={`h-full ${m.color} rounded-r-full shadow-lg transition-all duration-1000 ease-in-out`} style={{ width: `${(m.vol / 160000) * 100}%` }}></div>
+                    </div>
+                    <span className="w-16 text-xs text-right font-bold text-blue-400">{m.vol.toLocaleString()}L</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

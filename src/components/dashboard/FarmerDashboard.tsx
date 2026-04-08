@@ -12,6 +12,7 @@ import VideoGrid from './VideoGrid';
 import RoleBadge from './RoleBadge';
 import Breadcrumb from '../Breadcrumb';
 import EthiopianDate from './EthiopianDate';
+import { Search } from 'lucide-react';
 import Link from 'next/link';
 import {
   History,
@@ -135,6 +136,19 @@ const FarmerDashboard = () => {
       {activeTab === 'knowledge' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-3 space-y-8">
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={language === 'am' ? 'በእውቀት ቋት ውስጥ ፈልግ...' : 'Search knowledge base...'}
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-10 pr-4 outline-none focus:border-accent/50 transition-all text-sm"
+              />
+            </div>
+
+            {/* Category Filters */}
             <div className="flex flex-wrap gap-2">
               {categories.map(cat => (
                 <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
@@ -142,16 +156,29 @@ const FarmerDashboard = () => {
                     }`}>{cat.label}</button>
               ))}
             </div>
+
+            {/* Results Count */}
+            <div className="text-xs opacity-50">
+              {filteredArticles.length} {language === 'am' ? 'ውጤቶች ተገኝተዋል' : 'results found'}
+            </div>
+
+            {/* Articles Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {filteredArticles.length > 0 ? filteredArticles.map(a => <ArticleCard key={a.id} article={a} />) : (
                 <div className="col-span-full py-16 text-center glass rounded-3xl opacity-50">
                   <p>{language === 'am' ? 'ምንም ጽሁፍ አልተገኘም' : 'No articles found'}</p>
+                  {searchQuery && (
+                    <button
+                      onClick={() => { setSearchQuery(''); setActiveCategory('all'); }}
+                      className="mt-3 text-accent text-sm underline"
+                    >
+                      {language === 'am' ? 'ፍለጋን አጽዳ' : 'Clear search'}
+                    </button>
+                  )}
                 </div>
               )}
             </div>
-
           </div>
-
         </div>
       )}
 

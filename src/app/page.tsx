@@ -1,6 +1,7 @@
 'use client';
 
 import Image from "next/image";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import KnowledgeCards from "@/components/KnowledgeCards";
 import FAQ from "@/components/FAQ";
@@ -18,7 +19,8 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-start justify-center pt-32 overflow-hidden">
+
+      <section className="relative h-screen flex items-start justify-center pt-35 overflow-hidden">
         <div className="absolute inset-0 bg-hero-fixed z-0 dark:opacity-40 transition-opacity" />
         <div className="absolute inset-0 bg-background/20 dark:bg-black/60 z-10" />
 
@@ -27,13 +29,13 @@ export default function Home() {
             {t.hero.title} <br />
             <span className="text-accent">{t.hero.subtitle}</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-10 leading-relaxed font-light opacity-90">
+          <p className="text-xl md:text-2xl mb-10 leading-relaxed font-[400] opacity-90">
             {t.hero.description}
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <a
               href="#resources"
-              className="bg-primary text-white px-10 py-4 rounded-full text-lg font-bold hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-2xl"
+              className="bg-background text-foreground px-10 py-4 rounded-full text-lg font-bold hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-2xl"
             >
               {t.hero.browse} <MoveRight className="w-5 h-5" />
             </a>
@@ -122,9 +124,11 @@ export default function Home() {
             </p>
             <div className="flex items-center justify-between">
               <span className="text-accent font-bold text-xl">{t.products.natural.label}</span>
-              <button className="text-white flex items-center gap-2 group/btn font-bold">
-                {t.products.details} <MoveRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-              </button>
+              <Link href="/product/natural-yoghurt">
+                <button className="text-white flex items-center gap-2 group/btn font-bold">
+                  {t.products.details} <MoveRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -143,10 +147,12 @@ export default function Home() {
               {t.products.strawberry.desc}
             </p>
             <div className="flex items-center justify-between">
-              <span className="text-red-400 font-bold text-xl">{t.products.strawberry.label}</span>
-              <button className="text-white flex items-center gap-2 group/btn font-bold">
-                {t.products.details} <MoveRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-              </button>
+              <span className="text-accent font-bold text-xl">{t.products.strawberry.label}</span>
+              <Link href="/product/strawberry-yoghurt">
+                <button className="text-white flex items-center gap-2 group/btn font-bold">
+                  {t.products.details} <MoveRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -155,20 +161,22 @@ export default function Home() {
             <div className="relative mb-8 rounded-3xl overflow-hidden h-64">
               <Image
                 src="/holland-mango.jpg"
-                alt="Strawberry Yoghurt"
+                alt="Mango Yoghurt"
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
             </div>
-            <h3 className="text-3xl font-bold mb-4">{t.products.strawberry.name}</h3>
+            <h3 className="text-3xl font-bold mb-4">{t.products.mango.name}</h3>
             <p className="text-white/70 leading-relaxed mb-6">
-              {t.products.strawberry.desc}
+              {t.products.mango.desc}
             </p>
             <div className="flex items-center justify-between">
-              <span className="text-red-400 font-bold text-xl">{t.products.strawberry.label}</span>
-              <button className="text-white flex items-center gap-2 group/btn font-bold">
-                {t.products.details} <MoveRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-              </button>
+              <span className="text-accent font-bold text-xl">{t.products.mango.label}</span>
+              <Link href="/product/mango-yoghurt">
+                <button className="text-white flex items-center gap-2 group/btn font-bold">
+                  {t.products.details} <MoveRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -177,20 +185,22 @@ export default function Home() {
             <div className="relative mb-8 rounded-3xl overflow-hidden h-64">
               <Image
                 src="/holland-strawberry.jpg"
-                alt="Strawberry Yoghurt"
+                alt="Banana Yoghurt"
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
             </div>
-            <h3 className="text-3xl font-bold mb-4">{t.products.strawberry.name}</h3>
+            <h3 className="text-3xl font-bold mb-4">{t.products.banana.name}</h3>
             <p className="text-white/70 leading-relaxed mb-6">
-              {t.products.strawberry.desc}
+              {t.products.banana.desc}
             </p>
             <div className="flex items-center justify-between">
-              <span className="text-red-400 font-bold text-xl">{t.products.strawberry.label}</span>
-              <button className="text-white flex items-center gap-2 group/btn font-bold">
-                {t.products.details} <MoveRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-              </button>
+              <span className="text-accent font-bold text-xl">{t.products.banana.label}</span>
+              <Link href="/product/banana-yoghurt">
+                <button className="text-white flex items-center gap-2 group/btn font-bold">
+                  {t.products.details} <MoveRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -38,6 +38,7 @@
   --background: #053b2d;
   /* dark background */
   --foreground: #F9FAFB;
+  --dark: #000;
   /* white text */
   --accent: #10B981;
   --primary: #064E3B;
@@ -54,7 +55,7 @@ html {
 /* Body defaults */
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--dark);
 }
 
 /* Hero background */
@@ -64,6 +65,7 @@ body {
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
+  filter: blur(2px);
 }
 
 /* Glass effect utility */

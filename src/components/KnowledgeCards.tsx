@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { BookOpen, Zap, HeartPulse } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
@@ -8,6 +9,7 @@ import { translations } from '@/lib/translations';
 
 const icons = [BookOpen, Zap, HeartPulse];
 const colors = ["bg-accent/20", "bg-primary/20", "bg-red-500/10"];
+const slugs = ["dairy-farming-guide", "dutch-technology-processing", "nutrition-health-benefits"];
 
 const KnowledgeCards = () => {
   const { language } = useLanguage();
@@ -30,9 +32,11 @@ const KnowledgeCards = () => {
             <p className="opacity-80 leading-relaxed mb-6">
               {item.desc}
             </p>
-            <button className="mt-auto px-6 py-2 rounded-full border-2 border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-all">
-              {t.learnMore}
-            </button>
+            <Link href={`/resources/${slugs[index]}`} className="mt-auto">
+              <button className="w-full px-6 py-2 rounded-full border-2 border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-all">
+                {t.learnMore}
+              </button>
+            </Link>
           </motion.div>
         );
       })}

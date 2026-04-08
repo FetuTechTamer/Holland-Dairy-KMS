@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -5,6 +7,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { useLanguage } from '@/context/LanguageContext';
 import { translations } from '@/lib/translations';
+import { resourceData } from "@/lib/resourceData";
 
 const Footer = () => {
   const { language } = useLanguage();
@@ -57,8 +60,15 @@ const Footer = () => {
         <div>
           <h4 className="text-xl font-bold mb-6 text-accent">{t.resources.badge}</h4>
           <ul className="space-y-4 opacity-70">
-            {t.resources.items.map((item, i) => (
-              <li key={i}><Link href="#" className="hover:text-accent transition-colors">{item.title}</Link></li>
+            {resourceData.map((res) => (
+              <li key={res.slug}>
+                <Link
+                  href={`/resources/${res.slug}`}
+                  className="hover:text-accent transition-colors"
+                >
+                  {language === "am" ? res.titleAm || res.slug : res.slug}
+                </Link>
+              </li>
             ))}
           </ul>
         </div>
@@ -69,15 +79,15 @@ const Footer = () => {
           <ul className="space-y-4 opacity-70">
             <li className="flex items-center gap-3">
               <MapPin className="w-5 h-5 text-accent shrink-0" />
-              <span>Bishoftu, Ethiopia</span>
+              <span>{language === "am" ? "ቢሾፍቱ, ኢትዮጵያ" : "Bishoftu, Ethiopia"}</span>
             </li>
             <li className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-accent shrink-0" />
-              <span>6653</span>
+              <span>{language === "am" ? "ስልክ: 6653" : "Phone: 6653"}</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-accent shrink-0" />
-              <span>info@holland-dairy.com</span>
+              <span>{language === "am" ? "ኢሜይል: info@holland-dairy.com" : "Email: info@holland-dairy.com"}</span>
             </li>
           </ul>
         </div>

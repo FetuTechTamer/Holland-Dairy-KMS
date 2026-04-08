@@ -1,5 +1,15 @@
 export const translations = {
   am: {
+    common: {
+      backToProducts: "← ወደ ምርቶች ተመለስ",
+      backToResources: "← ወደ መማሪያዎች ተመለስ",
+      helpful: "ጠቃሚ ነበር?",
+      yes: "አዎ",
+      no: "አይ",
+      share: "አጋራ",
+      print: "አትም",
+      downloadPdf: "ፒዲኤፍ አውርድ",
+    },
     nav: {
       about: "ስለ እኛ",
       products: "ምርቶች",
@@ -189,6 +199,16 @@ export const translations = {
         desc: "በኢትዮጵያ ከፍተኛ ቦታዎች በሚበቅሉ እውነተኛ እንጆሪዎች የተሰራ። የተፈጥሮ ጣፋጭነት እና የወተት ጥምረት።",
         label: "እውነተኛ ፍራፍሬ"
       },
+      mango: {
+        name: "ሆላንድ ማንጎ እርጎ",
+        desc: "ጣፋጭ በፀሐይ የበሰለ ማንጎ ተቀላቅሎ። የኢትዮጵያ በጋ ጣዕም ወደ ማንኪያዎ የሚያመጣ ሞቃታማ ደስታ።",
+        label: "እንግዳ ፍራፍሬ"
+      },
+      banana: {
+        name: "ለስላሳ ሙዝ እርጎ",
+        desc: "ለስላሳ እና ተፈጥሯዊ ጣፋጭነት። በእውነተኛ የኢትዮጵያ ሙዝ የተሰራ፣ ለልጆችም ለአዋቂዎችም የሚስማማ የበለጸገ ጣዕም።",
+        label: "ተፈጥሯዊ ጣፋጭነት"
+      },
       details: "ዝርዝር መረጃ"
     },
     resources: {
@@ -294,6 +314,16 @@ export const translations = {
     }
   },
   en: {
+    common: {
+      backToProducts: "← Back to Products",
+      backToResources: "← Back to Resources",
+      helpful: "Was this helpful?",
+      yes: "Yes",
+      no: "No",
+      share: "Share",
+      print: "Print",
+      downloadPdf: "Download PDF",
+    },
     nav: {
       about: "About",
       products: "Products",
@@ -477,10 +507,20 @@ export const translations = {
         desc: "Our flagship product. Pure, natural, and exceptionally creamy. Made with 100% fresh Ethiopian milk and artisanal Dutch cultures.",
         label: "Healthy Choice"
       },
+      mango: {
+        name: "Holland Mango Yoghurt",
+        desc: "Infused with sweet, sun-ripened mangoes. A tropical delight that brings the taste of Ethiopian summers to your spoon.",
+        label: "Exotic Fruit"
+      },
       strawberry: {
         name: "Fresh Strawberry Yoghurt",
         desc: "Infused with real strawberries grown in the high altitudes of Ethiopia. A perfect blend of natural sweetness and dairy goodness.",
         label: "Real Fruit"
+      },
+      banana: {
+        name: "Creamy Banana Yoghurt",
+        desc: "Smooth and naturally sweet. Made with real Ethiopian bananas for a rich, satisfying flavor that both kids and adults love.",
+        label: "Natural Sweetness"
       },
       details: "Details"
     },

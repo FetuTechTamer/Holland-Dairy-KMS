@@ -41,6 +41,11 @@ export const translations = {
       farmer: "አርሶ አደር",
       staff: "ሰራተኛ",
       admin: "አስተዳዳሪ",
+      roles: {
+        production: "የምርት ሰራተኛ",
+        quality: "የጥራት ሰራተኛ",
+        logistics: "የሎጂስቲክስ ሰራተኛ",
+      },
       loginBtn: "ይግቡ",
       registerBtn: "ይመዝገቡ",
       noAccount: "መለያ የለዎትም? ይመዝገቡ",
@@ -126,7 +131,35 @@ export const translations = {
         confirmDelete: "ይህን ተጠቃሚ ለመሰረዝ እርግጠኛ ነዎት?",
       },
       ethiopianDate: "የኢትዮጵያ ቀን",
-      etMonthNames: ["መስከረም", "ጥቅምት", "ህዳር", "ታህሳስ", "ጥር", "የካቲት", "መጋቢት", "ሚያዝያ", "ግንቦት", "ሰኔ", "ሐምሌ", "ነሐሴ", "ጳጉሜን"]
+      etMonthNames: ["መስከረም", "ጥቅምት", "ህዳር", "ታህሳስ", "ጥር", "የካቲት", "መጋቢት", "ሚያዝያ", "ግንቦት", "ሰኔ", "ሐምሌ", "ነሐሴ", "ጳጉሜን"],
+      staffConnect: {
+        title: "የሰራተኞች ትስስር",
+        announcements: "ማስታወቂያዎች",
+        chatRooms: "የውይይት ክፍሎች",
+        knowledgeShare: "እውቀት መጋራት",
+        teamDirectory: "የሰራተኞች ማውጫ",
+        helpful: "ጠቃሚ",
+        membersOnline: "መስመር ላይ ያሉ አባላት",
+        pinnedMessage: "የተሰኩ መልእክቶች",
+        searchMessages: "መልእክቶችን ፈልግ...",
+        noMembers: "ምንም አባላት የሉም",
+        attachment: "አባሪ",
+        emoji: "ኢሞጂ",
+        departmental: "የክፍል ውይይቶች",
+        general: "አጠቃላይ",
+      },
+      chat: {
+        title: "ውይይት",
+        withAdmin: "አስተዳዳሪ",
+        withFarmers: "አርሶ አደሮች",
+        newChat: "+ አዲስ ውይይት",
+        search: "ውይይቶችን ፈልግ...",
+        typeMessage: "መልእክትዎን ይጻፉ...",
+        send: "ላክ",
+        noConversations: "ምንም ውይይቶች የሉም",
+        startNew: "አዲስ ውይይት ጀምር",
+        unread: "ያልተነበበ",
+      }
     },
     share: {
       postTitle: "እውቀትዎን ያካፍሉ",
@@ -263,6 +296,9 @@ export const translations = {
       contact: "አድራሻ",
       rights: "መብቱ በህግ የተጠበቀ ነው።"
     },
+    chat: {
+      title: "የተቀናጀ ውይይት",
+    },
     farmer: {
       milkTab: "ወተት መዝገብ",
       alertsTab: "SMS ማሳወቂያዎች",
@@ -359,6 +395,11 @@ export const translations = {
       farmer: "Farmer",
       staff: "Staff",
       admin: "Admin",
+      roles: {
+        production: "Production Staff",
+        quality: "Quality Staff",
+        logistics: "Logistics Staff",
+      },
       loginBtn: "Login",
       registerBtn: "Sign Up",
       noAccount: "Don't have an account? Sign Up",
@@ -444,6 +485,37 @@ export const translations = {
         confirmDelete: "Are you sure you want to delete this user?",
       },
       ethiopianDate: "Ethiopian Date",
+      staffConnect: {
+        title: "Staff Connect",
+        announcements: "Announcements",
+        chatRooms: "Chat Rooms",
+        knowledgeShare: "Knowledge Share",
+        teamDirectory: "Team Directory",
+        postAnnouncement: "Post Announcement",
+        newMessage: "New Message",
+        shareTip: "Share a Tip",
+        helpful: "helpful",
+        membersOnline: "Members Online",
+        pinnedMessage: "Pinned Message",
+        searchMessages: "Search messages...",
+        noMembers: "No members online",
+        attachment: "Attachment",
+        emoji: "Emoji",
+        departmental: "Departmental",
+        general: "General",
+      },
+      chat: {
+        title: "Chat",
+        withAdmin: "Admin",
+        withFarmers: "Farmers",
+        newChat: "+ New Chat",
+        search: "Search conversations...",
+        typeMessage: "Type your message...",
+        send: "Send",
+        noConversations: "No conversations yet",
+        startNew: "Start a new chat",
+        unread: "unread",
+      }
     },
     share: {
       postTitle: "Share Your Knowledge",
@@ -579,6 +651,9 @@ export const translations = {
       quickLinks: "Quick Links",
       contact: "Contact",
       rights: "All rights reserved."
+    },
+    chat: {
+      title: "Unified Chat",
     },
     farmer: {
       milkTab: "Milk Log",

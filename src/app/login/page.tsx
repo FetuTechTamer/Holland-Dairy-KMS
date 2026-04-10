@@ -141,23 +141,36 @@ const LoginPage = () => {
                   color: 'bg-green-200/30 text-green-700 border-green-300/50'
                 },
                 {
-                  label: language === 'am' ? 'ሰራተኛ' : 'Staff',
-                  email: 'staff@holland.com',
-                  pass: 'staff123',
+                  label: language === 'am' ? 'ምርት' : 'Production',
+                  email: 'production@holland.com',
+                  pass: 'production123',
                   color: 'bg-blue-200/30 text-blue-700 border-blue-300/50'
+                },
+                {
+                  label: language === 'am' ? 'ጥራት' : 'Quality',
+                  email: 'quality@holland.com',
+                  pass: 'quality123',
+                  color: 'bg-amber-200/30 text-amber-700 border-amber-300/50'
+                },
+                {
+                  label: language === 'am' ? 'ሎጂስቲክስ' : 'Logistics',
+                  email: 'logistics@holland.com',
+                  pass: 'logistics123',
+                  color: 'bg-purple-200/30 text-purple-700 border-purple-300/50'
                 },
                 {
                   label: language === 'am' ? 'አስተዳዳሪ' : 'Admin',
                   email: 'admin@holland.com',
                   pass: 'admin123',
-                  color: 'bg-purple-200/30 text-purple-700 border-purple-300/50'
-                },].map(demo => (
-                  <button key={demo.email} type="button"
-                    onClick={() => setFormData({ email: demo.email, password: demo.pass })}
-                    className={`px-3 py-1.5 rounded-full text-[10px] font-black border transition-all hover:scale-105 ${demo.color}`}>
-                    {demo.label}
-                  </button>
-                ))}
+                  color: 'bg-gray-200/30 text-gray-700 border-gray-300/50'
+                },
+              ].map(demo => (
+                <button key={demo.email} type="button"
+                  onClick={() => setFormData({ email: demo.email, password: demo.pass })}
+                  className={`px-3 py-1.5 rounded-full text-[10px] font-black border transition-all hover:scale-105 ${demo.color}`}>
+                  {demo.label}
+                </button>
+              ))}
             </div>
           </div>
 

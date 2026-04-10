@@ -1,10 +1,12 @@
 export type Role = 'FARMER' | 'STAFF' | 'ADMIN';
+export type StaffSubRole = 'PRODUCTION' | 'QUALITY' | 'LOGISTICS';
 
 export interface User {
   id: string;
   name: string;
   email: string;
   role: Role;
+  staffSubRole?: StaffSubRole;
   joinDate: string;
   avatar?: string;
   department?: string;
@@ -176,6 +178,33 @@ export const mockUsers: User[] = [
     role: 'ADMIN',
     joinDate: '2023-01-01',
     department: 'Management',
+  },
+  {
+    id: 'staff-prod',
+    name: 'Production Staff',
+    email: 'production@holland.com',
+    role: 'STAFF',
+    staffSubRole: 'PRODUCTION',
+    joinDate: '2023-01-15',
+    department: 'Production',
+  },
+  {
+    id: 'staff-qual',
+    name: 'Quality Staff',
+    email: 'quality@holland.com',
+    role: 'STAFF',
+    staffSubRole: 'QUALITY',
+    joinDate: '2023-01-20',
+    department: 'Quality',
+  },
+  {
+    id: 'staff-log',
+    name: 'Logistics Staff',
+    email: 'logistics@holland.com',
+    role: 'STAFF',
+    staffSubRole: 'LOGISTICS',
+    joinDate: '2023-02-01',
+    department: 'Logistics',
   },
   {
     id: '2',

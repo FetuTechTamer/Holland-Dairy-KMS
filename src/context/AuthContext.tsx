@@ -1,13 +1,13 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, Role, mockUsers } from '@/lib/mockData';
+import { User, Role, StaffSubRole, mockUsers } from '@/lib/mockData';
 
 interface AuthContextType {
   user: User | null;
   status: 'idle' | 'loading' | 'authenticated' | 'unauthenticated';
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, role: Role, farmName?: string, department?: string) => Promise<{ success: boolean; error?: string }>;
+  register: (name: string, email: string, role: Role, staffSubRole?: StaffSubRole, farmName?: string, department?: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
@@ -17,6 +17,9 @@ const MOCK_CREDENTIALS: Record<string, string> = {
   'admin@holland.com': 'admin123',
   'farmer@holland.com': 'farmer123',
   'staff@holland.com': 'staff123',
+  'production@holland.com': 'production123',
+  'quality@holland.com': 'quality123',
+  'logistics@holland.com': 'logistics123',
   'kebede@holland.com': 'farmer123',
   'tigist@holland.com': 'farmer123',
   'yohannes@holland.com': 'farmer123',
@@ -74,6 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     name: string,
     email: string,
     role: Role,
+    staffSubRole?: StaffSubRole,
     farmName?: string,
     department?: string
   ): Promise<{ success: boolean; error?: string }> => {
@@ -91,6 +95,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       name,
       email,
       role,
+      staffSubRole: role === 'STAFF' ? staffSubRole : undefined,
       joinDate: new Date().toISOString().split('T')[0],
       farmName: role === 'FARMER' ? farmName : undefined,
       department: role === 'STAFF' ? department : role === 'ADMIN' ? 'Management' : undefined,

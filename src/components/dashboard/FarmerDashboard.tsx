@@ -186,10 +186,10 @@ const FarmerDashboard = () => {
       {activeTab === 'chat' && (
         <div>
           <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
-            <div className="w-2 h-7 bg-blue-500 rounded-full" />
-            {t.sections.knowledgeShare}
+            <div className="w-2 h-7 bg-indigo-500 rounded-full" />
+            {language === 'am' ? 'የሠራተኛ መወያያ' : 'Knowledge Sharing'}
           </h2>
-          <KnowledgeShareFeed role="FARMER" />
+          <KnowledgeShareFeed role="STAFF" />
         </div>
       )}
 

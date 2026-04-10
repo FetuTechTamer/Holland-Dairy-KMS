@@ -9,21 +9,22 @@ import { filterArticles } from '@/lib/searchHelpers';
 import ArticleCard from './ArticleCard';
 import KnowledgeShareFeed from './KnowledgeShareFeed';
 import VideoGrid from './VideoGrid';
+import Link from 'next/link';
 import RoleBadge from './RoleBadge';
 import Breadcrumb from '../Breadcrumb';
 import EthiopianDate from './EthiopianDate';
-import Link from 'next/link';
 import LegacyStories from '../staff/LegacyStories';
-import { Search } from 'lucide-react';
+import StaffConnect from '../staff/StaffConnect';
+import { Search, Globe } from 'lucide-react';
 import { getTodayEthiopian } from '@/lib/ethiopianCalendar';
 import {
   History, ClipboardList,
   BookOpen, FlaskConical, Thermometer, ChefHat, X, AlertTriangle,
-  Users, AlertCircle, CheckCircle, TrendingUp, XCircle, Plus, MessageCircle, GraduationCap,
+  Users, AlertCircle, User, CheckCircle, TrendingUp, XCircle, Plus, MessageCircle, GraduationCap,
   Notebook
 } from 'lucide-react';
 
-type StaffTab = 'knowledge' | 'batches' | 'qc' | 'recipes' | 'chat' | 'training' | 'notes' | 'analytics' | 'legacy';
+type StaffTab = 'knowledge' | 'batches' | 'qc' | 'recipes' | 'connect' | 'chat' | 'training' | 'notes' | 'analytics' | 'legacy';
 
 // Quality Control Dashboard Component
 const QualityDashboard = ({ language }: { language: string }) => {
@@ -182,7 +183,15 @@ const StaffDashboard = () => {
   ]);
   const [noteText, setNoteText] = useState('');
 
-  const staffAllowedCats = ['cat1', 'cat2', 'cat3', 'cat6', 'cat7', 'cat9', 'cat10', 'cat11', 'manufacturing', 'suppliers', 'demographics', 'insights'];
+  const getAllowedCategories = () => {
+    if (user?.role === 'ADMIN') return ['cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6', 'cat7', 'cat8', 'cat9', 'cat10', 'cat11', 'manufacturing', 'suppliers', 'demographics', 'insights'];
+    if (user?.staffSubRole === 'PRODUCTION') return ['cat1', 'cat7', 'cat10'];
+    if (user?.staffSubRole === 'QUALITY') return ['cat2', 'cat4', 'cat6'];
+    if (user?.staffSubRole === 'LOGISTICS') return ['cat3', 'cat9', 'cat11'];
+    return ['cat1', 'cat2', 'cat3'];
+  };
+
+  const staffAllowedCats = getAllowedCategories();
   const staffBaseArticles = allArticles.filter(a =>
     (a.role === 'STAFF' || a.role === 'BOTH') && staffAllowedCats.includes(a.category)
   );
@@ -190,28 +199,37 @@ const StaffDashboard = () => {
 
   const categories = [
     { id: 'all', label: t.categories.all },
-    { id: 'manufacturing', label: t.categories.manufacturing || 'Manufacturing Processes' },
-    { id: 'suppliers', label: t.categories.suppliers || 'Supplier Management' },
-    { id: 'demographics', label: t.categories.demographics || 'Sales & Demographics' },
-    { id: 'insights', label: t.categories.insights || 'Customer Insights' },
-    { id: 'cat1', label: t.categories.cat1 },
-    { id: 'cat2', label: t.categories.cat2 },
-    { id: 'cat6', label: t.categories.cat6 },
-    { id: 'cat7', label: t.categories.cat7 },
-    { id: 'cat9', label: t.categories.cat9 },
+    ...[
+      { id: 'cat1', label: t.categories.cat1 },
+      { id: 'cat2', label: t.categories.cat2 },
+      { id: 'cat3', label: t.categories.cat3 },
+      { id: 'cat4', label: t.categories.cat4 },
+      { id: 'cat5', label: t.categories.cat5 },
+      { id: 'cat6', label: t.categories.cat6 },
+      { id: 'cat7', label: t.categories.cat7 },
+      { id: 'cat8', label: t.categories.cat8 },
+      { id: 'cat9', label: t.categories.cat9 },
+      { id: 'cat10', label: t.categories.cat10 },
+      { id: 'cat11', label: t.categories.cat11 },
+      { id: 'manufacturing', label: t.categories.manufacturing || 'Manufacturing Processes' },
+      { id: 'suppliers', label: t.categories.suppliers || 'Supplier Management' },
+      { id: 'demographics', label: t.categories.demographics || 'Sales & Demographics' },
+      { id: 'insights', label: t.categories.insights || 'Customer Insights' },
+    ].filter(cat => staffAllowedCats.includes(cat.id))
   ];
 
   const tabs = [
     { id: 'knowledge', label: language === 'am' ? 'እውቀት' : 'Knowledge', icon: BookOpen },
-    { id: 'batches', label: language === 'am' ? 'ምርት ባቹ' : 'Batches', icon: ClipboardList },
-    { id: 'qc', label: language === 'am' ? 'QC ላብ' : 'Quality Control Lab', icon: FlaskConical },
-    { id: 'recipes', label: language === 'am' ? 'ምግብ ቀመሮች' : 'Recipes', icon: ChefHat },
+    { id: 'batches', label: language === 'am' ? 'ምርት ባቹ' : 'Batches', icon: ClipboardList, access: ['PRODUCTION', 'QUALITY'] },
+    { id: 'qc', label: language === 'am' ? 'QC ላብ' : 'Quality Control Lab', icon: FlaskConical, access: ['QUALITY'] },
+    { id: 'recipes', label: language === 'am' ? 'ምግብ ቀመሮች' : 'Recipes', icon: ChefHat, access: ['PRODUCTION'] },
+    { id: 'connect', label: language === 'am' ? 'የሰራተኞች ትስስር' : 'Staff Connect', icon: Globe },
     { id: 'chat', label: language === 'am' ? 'ውይይት' : 'Chat', icon: MessageCircle },
     { id: 'training', label: language === 'am' ? 'ስልጠና' : 'Training', icon: GraduationCap },
-    { id: 'notes', label: language === 'am' ? 'ማስታወሻዎች' : 'Notes', icon: Notebook },
-    { id: 'analytics', label: language === 'am' ? 'ትንታኔ' : 'Analytics', icon: TrendingUp },
     { id: 'legacy', label: language === 'am' ? 'የተማርናቸው ትምህርቶች' : 'Lessons Learned', icon: BookOpen },
-  ];
+    { id: 'notes', label: language === 'am' ? 'ማስታወሻዎች' : 'Notes', icon: User },
+    { id: 'analytics', label: language === 'am' ? 'ትንታኔ' : 'Analytics', access: ['QUALITY', 'PRODUCTION'] },
+  ].filter(tab => !tab.access || user?.role === 'ADMIN' || (user?.staffSubRole && tab.access.includes(user.staffSubRole)));
 
   const statusColor = (status: string) => {
     if (status === 'OK' || status === 'COMPLETED' || status === 'PASS') return 'bg-green-500/20 text-green-500';
@@ -273,7 +291,7 @@ const StaffDashboard = () => {
           <button key={tab.id} onClick={() => setActiveTab(tab.id as StaffTab)}
             className={`flex items-center gap-2 px-5 py-3 rounded-[1.5rem] text-sm font-bold transition-all whitespace-nowrap ${activeTab === tab.id ? 'bg-blue-500 text-white shadow-lg' : 'opacity-50 hover:opacity-100'
               }`}>
-            <tab.icon className="w-4 h-4" />
+            {tab.icon && <tab.icon className="w-4 h-4" />}
             {tab.label}
           </button>
         ))}
@@ -434,15 +452,9 @@ const StaffDashboard = () => {
         </div>
       )}
 
-      {/* ── CHATS── */}
-      {activeTab === 'chat' && (
-        <div>
-          <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
-            <div className="w-2 h-7 bg-indigo-500 rounded-full" />
-            {language === 'am' ? 'የሠራተኛ መወያያ' : 'Knowledge Sharing'}
-          </h2>
-          <KnowledgeShareFeed role="STAFF" />
-        </div>
+      {/* ── STAFF CONNECT ── */}
+      {activeTab === 'connect' && (
+        <StaffConnect />
       )}
 
       {/* ── TRAINING── */}
@@ -577,6 +589,17 @@ const StaffDashboard = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* ── CHATS── */}
+      {activeTab === 'chat' && (
+        <div>
+          <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
+            <div className="w-2 h-7 bg-indigo-500 rounded-full" />
+            {language === 'am' ? 'የሠራተኛ መወያያ' : 'Knowledge Sharing'}
+          </h2>
+          <KnowledgeShareFeed role="STAFF" />
         </div>
       )}
 

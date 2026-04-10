@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User, Mail, Lock, ArrowRight, UserCircle2, Briefcase, Flower2, Globe, Sun, Moon, Droplet, Shield, Users } from 'lucide-react';
 import Image from 'next/image';
-import { Role } from '@/lib/mockData';
+import { Role, StaffSubRole } from '@/lib/mockData';
 
 const RegisterPage = () => {
   const { register } = useAuth();
@@ -24,6 +24,7 @@ const RegisterPage = () => {
     password: '',
     confirmPassword: '',
     role: 'FARMER' as Role,
+    staffSubRole: 'PRODUCTION' as StaffSubRole,
     farmName: '',
     department: ''
   });
@@ -49,6 +50,7 @@ const RegisterPage = () => {
         formData.name,
         formData.email,
         formData.role,
+        formData.role === 'STAFF' ? formData.staffSubRole : undefined,
         formData.farmName,
         formData.department
       );
@@ -204,7 +206,7 @@ const RegisterPage = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setFormData({ ...formData, role: 'STAFF' })}
+                  onClick={() => setFormData({ ...formData, role: 'STAFF', staffSubRole: 'PRODUCTION', department: 'PRODUCTION' })}
                   className={`flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all text-center ${formData.role === 'STAFF'
                     ? 'border-blue-500 bg-blue-500/10'
                     : 'border-white/10 glass hover:bg-white/5 opacity-70'
@@ -244,17 +246,16 @@ const RegisterPage = () => {
               )}
               {formData.role === 'STAFF' && (
                 <div className="space-y-1">
-                  <label className="text-xs font-bold opacity-60 ml-1">{t.department}</label>
+                  <label className="text-xs font-bold opacity-60 ml-1">Staff Type</label>
                   <select
                     required
-                    value={formData.department}
-                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                    value={formData.staffSubRole}
+                    onChange={(e) => setFormData({ ...formData, staffSubRole: e.target.value as StaffSubRole, department: e.target.value })}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-accent/50 outline-none transition-all"
                   >
-                    <option value="" disabled>Select department</option>
-                    <option value="Processing" className="bg-green-950">Processing</option>
-                    <option value="Quality" className="bg-green-950">Quality Control</option>
-                    <option value="Logistics" className="bg-green-950">Logistics</option>
+                    <option value="PRODUCTION" className="bg-green-950">Production Staff (Factory & Operations)</option>
+                    <option value="QUALITY" className="bg-green-950">Quality Staff (Lab & Compliance)</option>
+                    <option value="LOGISTICS" className="bg-green-950">Logistics Staff (Supply Chain & Distribution)</option>
                   </select>
                 </div>
               )}

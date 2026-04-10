@@ -16,7 +16,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
-  
+
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage } = useLanguage();
   const { user, status, logout } = useAuth();
@@ -70,8 +70,8 @@ const Navbar = () => {
             <Link href="/#resources" className="hover:text-accent transition-colors">
               {t.resources}
             </Link>
-            
-            <button 
+
+            <button
               onClick={() => setIsContactOpen(true)}
               className="hover:text-accent transition-colors"
             >
@@ -103,8 +103,13 @@ const Navbar = () => {
                 )}
               </button>
 
-              {/* Notification Bell */}
-              {user && <NotificationBell />}
+              {/* Notification & Chat Bells */}
+              {user && (
+                <div className="flex items-center gap-1">
+
+                  <NotificationBell />
+                </div>
+              )}
 
               {/* Hub/Auth Logic */}
               {status === 'loading' ? (
@@ -119,8 +124,8 @@ const Navbar = () => {
                       {user.name.charAt(0)}
                     </div>
                     <div className="flex flex-col items-start leading-none group text-left">
-                       <span className="text-[10px] font-black opacity-40 uppercase tracking-tighter">{user.role}</span>
-                       <span className="text-[11px] font-bold truncate max-w-[80px]">{user.name.split(' ')[0]}</span>
+                      <span className="text-[10px] font-black opacity-40 uppercase tracking-tighter">{user.role}</span>
+                      <span className="text-[11px] font-bold truncate max-w-[80px]">{user.name.split(' ')[0]}</span>
                     </div>
                   </button>
 
@@ -133,7 +138,7 @@ const Navbar = () => {
                           <p className="text-[10px] opacity-60 truncate">{user.email}</p>
                         </div>
                         <div className="p-2">
-                          <Link 
+                          <Link
                             href="/dashboard"
                             onClick={() => setIsProfileOpen(false)}
                             className="flex items-center gap-3 p-3 rounded-xl hover:bg-accent hover:text-white transition-all group"
@@ -141,7 +146,7 @@ const Navbar = () => {
                             <LayoutDashboard className="w-4 h-4" />
                             <span className="text-sm font-medium">{t.dashboard}</span>
                           </Link>
-                          <Link 
+                          <Link
                             href="/profile"
                             onClick={() => setIsProfileOpen(false)}
                             className="flex items-center gap-3 p-3 rounded-xl hover:bg-accent hover:text-white transition-all group"
@@ -149,7 +154,7 @@ const Navbar = () => {
                             <User className="w-4 h-4" />
                             <span className="text-sm font-medium">{t.profile}</span>
                           </Link>
-                          <Link 
+                          <Link
                             href="/"
                             onClick={() => setIsProfileOpen(false)}
                             className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-600 hover:text-white transition-all group"
@@ -157,7 +162,7 @@ const Navbar = () => {
                             <LayoutDashboard className="w-4 h-4 -rotate-90" />
                             <span className="text-sm font-medium">{t.goHome}</span>
                           </Link>
-                          <button 
+                          <button
                             onClick={() => {
                               logout();
                               setIsProfileOpen(false);
@@ -185,7 +190,11 @@ const Navbar = () => {
 
           {/* Mobile Controls */}
           <div className="flex items-center gap-4 md:hidden">
-            {user && <NotificationBell />}
+            {user && (
+              <div className="flex items-center gap-1">
+                <NotificationBell />
+              </div>
+            )}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-foreground/5"
@@ -207,7 +216,7 @@ const Navbar = () => {
             <Link href="/#about" onClick={() => setIsMobileMenuOpen(false)} className="py-2 border-b border-foreground/5">{t.about}</Link>
             <Link href="/#products" onClick={() => setIsMobileMenuOpen(false)} className="py-2 border-b border-foreground/5">{t.products}</Link>
             <Link href="/#resources" onClick={() => setIsMobileMenuOpen(false)} className="py-2 border-b border-foreground/5">{t.resources}</Link>
-            <button 
+            <button
               onClick={() => {
                 setIsContactOpen(true);
                 setIsMobileMenuOpen(false);
@@ -220,7 +229,7 @@ const Navbar = () => {
             {user ? (
               <>
                 <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="py-2 border-b border-foreground/5 font-bold text-accent">{t.dashboard}</Link>
-                <button 
+                <button
                   onClick={() => {
                     logout();
                     setIsMobileMenuOpen(false);
@@ -253,7 +262,7 @@ const Navbar = () => {
           </div>
         )}
       </nav>
-      
+
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </>
   );

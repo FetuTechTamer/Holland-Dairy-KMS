@@ -228,7 +228,7 @@ const StaffDashboard = () => {
     { id: 'training', label: language === 'am' ? 'ስልጠና' : 'Training', icon: GraduationCap },
     { id: 'legacy', label: language === 'am' ? 'የተማርናቸው ትምህርቶች' : 'Lessons Learned', icon: BookOpen },
     { id: 'notes', label: language === 'am' ? 'ማስታወሻዎች' : 'Notes', icon: User },
-    { id: 'analytics', label:  === 'am' ? 'ትንታኔ' : 'Analytics', access: ['QUALITY', 'PRODUCTION'] },
+    { id: 'analytics', label: language === 'am' ? 'ትንታኔ' : 'Analytics', access: ['QUALITY', 'PRODUCTION'] },
   ].filter(tab => !tab.access || user?.role === 'ADMIN' || (user?.staffSubRole && tab.access.includes(user.staffSubRole)));
 
   const statusColor = (status: string) => {

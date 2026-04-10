@@ -133,6 +133,7 @@ export const translations = {
       staffConnect: {
         title: "የሰራተኞች ትስስር",
         announcements: "ማስታወቂያዎች",
+        postAnnouncement: "ማስታወቂያ ለመለጠፍ",
         chatRooms: "የውይይት ክፍሎች",
         knowledgeShare: "እውቀት መጋራት",
         teamDirectory: "የሰራተኞች ማውጫ",
@@ -484,10 +485,10 @@ export const translations = {
       staffConnect: {
         title: "Staff Connect",
         announcements: "Announcements",
+        postAnnouncement: "Post Announcement",
         chatRooms: "Chat Rooms",
         knowledgeShare: "Knowledge Share",
         teamDirectory: "Team Directory",
-        postAnnouncement: "Post Announcement",
         newMessage: "New Message",
         shareTip: "Share a Tip",
         helpful: "helpful",

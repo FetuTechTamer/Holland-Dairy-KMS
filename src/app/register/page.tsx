@@ -58,7 +58,14 @@ const RegisterPage = () => {
       if (result.success) {
         router.push('/dashboard');
       } else {
-        setError(t[result.error as keyof typeof t] || 'Registration failed');
+        const errorKey = result.error;
+
+        const message =
+          typeof errorKey === 'string'
+            ? (t[errorKey as keyof typeof t] ?? errorKey)
+            : 'Registration failed';
+
+        setError(message);
       }
     } catch (err) {
       setError('Registration failed. Please try again.');
@@ -206,7 +213,7 @@ const RegisterPage = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setFormData({ ...formData, role: 'STAFF', staffSubRole: 'PRODUCTION', department: 'PRODUCTION' })}
+                  onClick={() => setFormData({ ...formData, role: 'STAFF' })}
                   className={`flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all text-center ${formData.role === 'STAFF'
                     ? 'border-blue-500 bg-blue-500/10'
                     : 'border-white/10 glass hover:bg-white/5 opacity-70'

@@ -7,7 +7,14 @@ interface AuthContextType {
   user: User | null;
   status: 'idle' | 'loading' | 'authenticated' | 'unauthenticated';
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, role: Role, staffSubRole?: StaffSubRole, farmName?: string, department?: string) => Promise<{ success: boolean; error?: string }>;
+  register: (
+    name: string,
+    email: string,
+    role: Role,
+    staffSubRole?: StaffSubRole,
+    farmName?: string,
+    department?: string
+  ) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
@@ -20,24 +27,40 @@ const MOCK_CREDENTIALS: Record<string, string> = {
   'production@holland.com': 'production123',
   'quality@holland.com': 'quality123',
   'logistics@holland.com': 'logistics123',
-  'kebede@holland.com': 'farmer123',
-  'tigist@holland.com': 'farmer123',
-  'yohannes@holland.com': 'farmer123',
-  'almaz@holland.com': 'farmer123',
-  'daniel@holland.com': 'staff123',
-  'hiwot@holland.com': 'staff123',
+};
+
+// ✅ Safe JSON parser
+const safeParse = <T,>(value: string | null): T[] => {
+  try {
+    return value ? JSON.parse(value) : [];
+  } catch {
+    return [];
+  }
+};
+
+// ✅ Get all users helper
+const getAllUsers = (): User[] => {
+  return [
+    ...mockUsers,
+    ...safeParse<User>(localStorage.getItem('holland_extra_users')),
+  ];
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'authenticated' | 'unauthenticated'>('loading');
-  const [sessionUsers, setSessionUsers] = useState<User[]>(mockUsers);
+  const [status, setStatus] = useState<
+    'idle' | 'loading' | 'authenticated' | 'unauthenticated'
+  >('loading');
 
   useEffect(() => {
     try {
       const savedUser = localStorage.getItem('holland_user');
       const savedExtraUsers = localStorage.getItem('holland_extra_users');
-      if (savedExtraUsers) setSessionUsers([...mockUsers, ...JSON.parse(savedExtraUsers)]);
+
+      if (savedExtraUsers) {
+        safeParse<User>(savedExtraUsers);
+      }
+
       if (savedUser) {
         setUser(JSON.parse(savedUser));
         setStatus('authenticated');
@@ -54,13 +77,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await new Promise(resolve => setTimeout(resolve, 700));
 
     const expectedPassword = MOCK_CREDENTIALS[email.toLowerCase()];
+
     if (!expectedPassword || password !== expectedPassword) {
       setStatus('unauthenticated');
       return false;
     }
 
-    const allUsers = [...mockUsers, ...JSON.parse(localStorage.getItem('holland_extra_users') || '[]')];
-    const foundUser = allUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const allUsers = getAllUsers();
+    const foundUser = allUsers.find(
+      u => u.email.toLowerCase() === email.toLowerCase()
+    );
 
     if (foundUser) {
       setUser(foundUser);
@@ -84,28 +110,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setStatus('loading');
     await new Promise(resolve => setTimeout(resolve, 700));
 
-    const allUsers = [...mockUsers, ...JSON.parse(localStorage.getItem('holland_extra_users') || '[]')];
+    const allUsers = getAllUsers();
+
     if (allUsers.find(u => u.email.toLowerCase() === email.toLowerCase())) {
       setStatus('unauthenticated');
       return { success: false, error: 'emailExists' };
     }
 
     const newUser: User = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substring(2, 11),
       name,
       email,
       role,
       staffSubRole: role === 'STAFF' ? staffSubRole : undefined,
       joinDate: new Date().toISOString().split('T')[0],
       farmName: role === 'FARMER' ? farmName : undefined,
-      department: role === 'STAFF' ? department : role === 'ADMIN' ? 'Management' : undefined,
+      department:
+        role === 'STAFF'
+          ? department
+          : role === 'ADMIN'
+            ? 'Management'
+            : undefined,
     };
 
-    const extraUsers = JSON.parse(localStorage.getItem('holland_extra_users') || '[]');
-    localStorage.setItem('holland_extra_users', JSON.stringify([...extraUsers, newUser]));
+    const extraUsers = safeParse<User>(
+      localStorage.getItem('holland_extra_users')
+    );
+
+    localStorage.setItem(
+      'holland_extra_users',
+      JSON.stringify([...extraUsers, newUser])
+    );
+
     setUser(newUser);
     localStorage.setItem('holland_user', JSON.stringify(newUser));
     setStatus('authenticated');
+
     return { success: true };
   };
 

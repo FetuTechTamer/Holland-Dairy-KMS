@@ -70,8 +70,15 @@ body {
 
 /* Glass effect utility */
 @layer utilities {
+  .glass {
+    @apply bg-white/20 backdrop-blur-md border border-white/30 dark:bg-black/20 dark:border-black/40;
+  }
 
-
+  /* Attractive buttons for primary CTA (Hub button) */
+  .btn-primary {
+    @apply text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl;
+    background-color: var(--primary);
+  }
 
   .dark .btn-primary {
     background-color: var(--primary);
@@ -88,7 +95,10 @@ body {
   }
 }
 
-
+/* Utility for card hover effects */
+.card-hover {
+  @apply transition-transform duration-500 ease-in-out transform hover:scale-[1.02] hover:shadow-xl;
+}
 
 /* Scrollbar hide */
 .scrollbar-hide {

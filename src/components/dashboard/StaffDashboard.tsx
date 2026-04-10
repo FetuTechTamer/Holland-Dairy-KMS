@@ -231,11 +231,7 @@ const StaffDashboard = () => {
     { id: 'analytics', label: language === 'am' ? 'ትንታኔ' : 'Analytics', access: ['QUALITY', 'PRODUCTION'] },
   ].filter(tab => !tab.access || user?.role === 'ADMIN' || (user?.staffSubRole && tab.access.includes(user.staffSubRole)));
 
-  const statusColor = (status: string) => {
-    if (status === 'OK' || status === 'COMPLETED' || status === 'PASS') return 'bg-green-500/20 text-green-500';
-    if (status === 'DUE' || status === 'WARNING' || status === 'QC_HOLD') return 'bg-amber-500/20 text-amber-500';
-    return 'bg-red-500/20 text-red-500';
-  };
+
 
   const addBatch = () => {
     const today = new Date();

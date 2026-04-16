@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { MoveRight, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
+import HubGuide from "@/components/home/HubGuide";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -205,6 +206,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Hub Guide Section */}
+      <HubGuide />
 
       {/* Resources Section */}
       <section id="resources" className="py-32 bg-background">

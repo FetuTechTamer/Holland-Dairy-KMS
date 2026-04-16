@@ -351,6 +351,49 @@ export const translations = {
       staffOnly: "ሠራተኞች ብቻ",
       broadcastTitle: "የስርጭት ርዕስ",
       broadcastMessage: "ስርጭቱ:",
+    },
+    hubGuide: {
+      title: "🧭 የእውቀት ማዕከል መመሪያ",
+      farmerRole: "አርሶ አደር",
+      staffRole: "ሰራተኛ",
+      adminRole: "አስተዳዳሪ",
+      quickSteps: "ፈጣን እርምጃዎች",
+      features: {
+        knowledgeBase: "የእውቀት ቋት",
+        community: "ማህበረሰብ",
+        chat: "የውይይት ክፍል",
+        innovationHub: "የፈጠራ ማዕከል",
+        fastingCalendar: "የፆም የቀን መቁጠሪያ",
+        legacyStories: "የቅርስ ታሪኮች"
+      },
+      etCustoms: "ከኢትዮጵያ የቀን መቁጠሪያ እና ከአማርኛ ቋንቋ ጋር የተስማማ",
+      getStarted: "ይጀምሩ - ይመዝገቡ",
+      learnMore: "ተጨማሪ ያንብቡ"
+    },
+    sales: {
+      title: "የሽያጭ ዳሽቦርድ",
+      metricsTitle: "የሽያጭ መለኪያዎች",
+      plantBasedTitle: "ከዕፅዋት የተቀመሙ ምርቶች",
+      fastingCalendarTitle: "የፆም የቀን መቁጠሪያ",
+      totalSales: "ጠቅላላ ሽያጭ",
+      revenue: "ገቢ",
+      growth: "እድገት",
+      status: "ሁኔታ",
+      fastingPeriods: {
+        abiyTsome: "ዐቢይ ጾም",
+        filseta: "ጾመ ፍልሰታ",
+        nenewe: "ጾመ ነነዌ",
+        tsige: "ጾመ ጽጌ"
+      },
+      products: {
+        almondMilk: "የአልሞንድ ወተት",
+        soyYoghurt: "የአኩሪ አተር እርጎ",
+        oatDrink: "የአጃ መጠጥ",
+        coconutCream: "የኮኮናት ክሬም"
+      },
+      inStock: "በክምችት አለ",
+      outOfStock: "አልቋል",
+      lowStock: "አነስተኛ ክምችት"
     }
   },
   en: {
@@ -705,6 +748,49 @@ export const translations = {
       staffOnly: "Staff Only",
       broadcastTitle: "Broadcast Title",
       broadcastMessage: "Message",
+    },
+    hubGuide: {
+      title: "🧭 Knowledge Hub Guide",
+      farmerRole: "Farmer",
+      staffRole: "Staff",
+      adminRole: "Admin",
+      quickSteps: "Quick Steps",
+      features: {
+        knowledgeBase: "Knowledge Base",
+        community: "Community",
+        chat: "Chat",
+        innovationHub: "Innovation Hub",
+        fastingCalendar: "Fasting Calendar",
+        legacyStories: "Legacy Stories"
+      },
+      etCustoms: "Ethiopian Calendar & Amharic language support included",
+      getStarted: "Get Started - Register",
+      learnMore: "Learn More"
+    },
+    sales: {
+      title: "Sales Dashboard",
+      metricsTitle: "Sales Metrics",
+      plantBasedTitle: "Plant-Based Products",
+      fastingCalendarTitle: "Fasting Calendar",
+      totalSales: "Total Sales",
+      revenue: "Revenue",
+      growth: "Growth",
+      status: "Status",
+      fastingPeriods: {
+        abiyTsome: "Abiy Tsome",
+        filseta: "Filseta",
+        nenewe: "Nenewe",
+        tsige: "Tsige"
+      },
+      products: {
+        almondMilk: "Almond Milk",
+        soyYoghurt: "Soy Yoghurt",
+        oatDrink: "Oat Drink",
+        coconutCream: "Coconut Cream"
+      },
+      inStock: "In Stock",
+      outOfStock: "Out of Stock",
+      lowStock: "Low Stock"
     }
   }
 };

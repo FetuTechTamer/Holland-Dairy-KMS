@@ -159,6 +159,12 @@ const LoginPage = () => {
                   color: 'bg-purple-200/30 text-purple-700 border-purple-300/50'
                 },
                 {
+                  label: language === 'am' ? 'ሽያጭ' : 'Sales',
+                  email: 'sales@holland.com',
+                  pass: 'sales123',
+                  color: 'bg-pink-100 text-pink-800 dark:bg-pink-900/50 dark:text-pink-300 border-pink-300/50'
+                },
+                {
                   label: language === 'am' ? 'አስተዳዳሪ' : 'Admin',
                   email: 'admin@holland.com',
                   pass: 'admin123',

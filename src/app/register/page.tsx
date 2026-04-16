@@ -263,6 +263,7 @@ const RegisterPage = () => {
                     <option value="PRODUCTION" className="bg-green-950">Production Staff (Factory & Operations)</option>
                     <option value="QUALITY" className="bg-green-950">Quality Staff (Lab & Compliance)</option>
                     <option value="LOGISTICS" className="bg-green-950">Logistics Staff (Supply Chain & Distribution)</option>
+                    <option value="SALES" className="bg-green-950">Sales Staff (Marketing & Customer Relations)</option>
                   </select>
                 </div>
               )}

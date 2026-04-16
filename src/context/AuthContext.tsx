@@ -27,6 +27,7 @@ const MOCK_CREDENTIALS: Record<string, string> = {
   'production@holland.com': 'production123',
   'quality@holland.com': 'quality123',
   'logistics@holland.com': 'logistics123',
+  'sales@holland.com': 'sales123',
 };
 
 // ✅ Safe JSON parser

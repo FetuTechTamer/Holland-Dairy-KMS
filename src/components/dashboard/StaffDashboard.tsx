@@ -21,10 +21,11 @@ import {
   History, ClipboardList,
   BookOpen, FlaskConical, Thermometer, ChefHat, X, AlertTriangle,
   Users, AlertCircle, User, CheckCircle, TrendingUp, XCircle, Plus, MessageCircle, GraduationCap,
-  Notebook
+  Notebook, CalendarDays
 } from 'lucide-react';
+import FastingPlanner from './FastingPlanner';
 
-type StaffTab = 'knowledge' | 'batches' | 'qc' | 'recipes' | 'connect' | 'chat' | 'training' | 'notes' | 'analytics' | 'legacy';
+type StaffTab = 'knowledge' | 'batches' | 'qc' | 'recipes' | 'connect' | 'chat' | 'training' | 'notes' | 'analytics' | 'legacy' | 'salesPlanner';
 
 // Quality Control Dashboard Component
 const QualityDashboard = ({ language }: { language: string }) => {
@@ -188,6 +189,7 @@ const StaffDashboard = () => {
     if (user?.staffSubRole === 'PRODUCTION') return ['cat1', 'cat7', 'cat10'];
     if (user?.staffSubRole === 'QUALITY') return ['cat2', 'cat4', 'cat6'];
     if (user?.staffSubRole === 'LOGISTICS') return ['cat3', 'cat9', 'cat11'];
+    if (user?.staffSubRole === 'SALES') return ['cat4', 'demographics', 'insights'];
     return ['cat1', 'cat2', 'cat3'];
   };
 
@@ -229,6 +231,7 @@ const StaffDashboard = () => {
     { id: 'legacy', label: language === 'am' ? 'የተማርናቸው ትምህርቶች' : 'Lessons Learned', icon: BookOpen },
     { id: 'notes', label: language === 'am' ? 'ማስታወሻዎች' : 'Notes', icon: User },
     { id: 'analytics', label: language === 'am' ? 'ትንታኔ' : 'Analytics', access: ['QUALITY', 'PRODUCTION'] },
+    { id: 'salesPlanner', label: language === 'am' ? 'የጾም እቅድ' : 'Fasting Planner', icon: CalendarDays, access: ['SALES'] },
   ].filter(tab => !tab.access || user?.role === 'ADMIN' || (user?.staffSubRole && tab.access.includes(user.staffSubRole)));
 
   const statusColor = (status: string) => {
@@ -601,6 +604,11 @@ const StaffDashboard = () => {
           </h2>
           <KnowledgeShareFeed role="STAFF" />
         </div>
+      )}
+
+      {/* ── SALES PLANNER ── */}
+      {activeTab === 'salesPlanner' && (
+        <FastingPlanner />
       )}
 
     </div>

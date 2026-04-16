@@ -10,7 +10,7 @@ import DirectMessageModal from './DirectMessageModal';
 const TeamDirectory = () => {
   const { language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<'all' | 'PRODUCTION' | 'QUALITY' | 'LOGISTICS'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'PRODUCTION' | 'QUALITY' | 'LOGISTICS' | 'SALES'>('all');
   const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
   const t = translations[language].dashboard.staffConnect;
 
@@ -47,7 +47,7 @@ const TeamDirectory = () => {
           />
         </div>
         <div className="flex gap-2 p-1.5 bg-white/5 rounded-2xl border border-white/5">
-          {['all', 'PRODUCTION', 'QUALITY', 'LOGISTICS'].map((tab) => (
+          {['all', 'PRODUCTION', 'QUALITY', 'LOGISTICS', 'SALES'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab as any)}

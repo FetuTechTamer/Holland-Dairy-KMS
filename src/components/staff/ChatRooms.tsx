@@ -5,7 +5,7 @@ import {
   MessageSquare, Send, Hash, User as UserIcon, 
   Search, Pin, Users, Factory, FlaskConical, 
   Truck, Globe, Paperclip, Smile, MoreHorizontal,
-  ChevronRight, Activity, X, Menu
+  ChevronRight, Activity, X, Menu, TrendingUp
 } from 'lucide-react';
 import { useStaffCommunication } from '@/context/StaffCommunicationContext';
 import { useAuth } from '@/context/AuthContext';
@@ -67,6 +67,7 @@ const ChatRooms = () => {
       case 'production': return <Factory className="w-4 h-4" />;
       case 'quality': return <FlaskConical className="w-4 h-4" />;
       case 'logistics': return <Truck className="w-4 h-4" />;
+      case 'sales': return <TrendingUp className="w-4 h-4" />;
       default: return <Globe className="w-4 h-4" />;
     }
   };

@@ -117,8 +117,18 @@ export const mockChatRooms: ChatRoom[] = [
     members: 6, 
     unreadCount: 2,
     type: 'departmental',
-    participants: [
+     participants: [
       { id: '6', name: 'Tekle B.', role: 'LOGISTICS', isOnline: true },
+    ]
+  },
+  { 
+    id: 'sales', 
+    name: '#sales', 
+    members: 4, 
+    unreadCount: 0,
+    type: 'departmental',
+    participants: [
+      { id: 'sales-1', name: 'Bekele Tadese', role: 'SALES', isOnline: true },
     ]
   },
   { 
@@ -131,6 +141,7 @@ export const mockChatRooms: ChatRoom[] = [
        { id: 'admin', name: 'Holland Admin', role: 'ADMIN', isOnline: true },
        { id: '1', name: 'Tigist D.', role: 'PRODUCTION', isOnline: true },
        { id: '4', name: 'Almaz D.', role: 'QUALITY', isOnline: true },
+       { id: 'sales-1', name: 'Bekele Tadese', role: 'SALES', isOnline: true },
     ]
   }
 ];
@@ -192,5 +203,17 @@ export const mockKnowledgeTips: KnowledgeTip[] = [
     helpfulCount: 15,
     comments: 6,
     category: 'Logistics Tip'
+  },
+  {
+    id: 'tip-4',
+    title: 'Customer Insights: Fasting Period',
+    text: 'Customers are specifically asking for plant-based alternatives during the upcoming fast. Let\'s push our new oat-based products.',
+    author: 'Bekele Tadese',
+    authorSubRole: 'SALES',
+    timestamp: '1 day ago',
+    likes: 22,
+    helpfulCount: 18,
+    comments: 5,
+    category: 'Sales Tip' as unknown as any
   }
 ];
